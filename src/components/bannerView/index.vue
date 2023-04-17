@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:42:49
- * @LastEditors: chaichai chaichai@cute.com
- * @LastEditTime: 2022-10-09 10:39:13
- * @FilePath: \blog3.0\src\components\bannerView\index.vue
+ * @LastEditors: Chai chai 2787922490@qq.com
+ * @LastEditTime: 2023-04-15 22:51:31
+ * @FilePath: \Vue-Second-dimensional-personal-blog\src\components\bannerView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -23,7 +23,6 @@
             @select="handleSelect"
             collapse-transition
             background-color="#0000001D"
-            router
             text-color="#fff"
             menu-trigger="click"
           >
@@ -54,7 +53,7 @@
 
 <script>
 export default {
-  name:'bannerView',
+  name: "bannerView",
   props: {
     imgUrl: {
       required: true,
@@ -70,6 +69,7 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
+      this.$router.push(`/${key}`);
       console.log(key, keyPath);
     },
   },

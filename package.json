@@ -9,9 +9,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "ali-oss": "^6.17.1",
     "amfe-flexible": "^2.2.1",
     "animate.css": "^4.1.1",
+    "axios": "^1.3.5",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.7",
     "element-tiptap": "^1.27.1",
     "element-ui": "^2.15.10",
     "postcss-pxtorem": "^6.0.0",

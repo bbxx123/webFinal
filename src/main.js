@@ -18,9 +18,11 @@ import { ElementTiptapPlugin } from 'element-tiptap';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-tiptap/lib/index.css';
 import animated from 'animate.css'
+import dayjs from 'dayjs'
 
 // Vue.use(animated)
 Vue.use(ElementUI);
+Vue.prototype.$dayjs = dayjs;
 
 Vue.use(ElementTiptapPlugin, {
   /* 插件配置项 */
