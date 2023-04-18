@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:45:11
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:21:06
+ * @LastEditTime: 2023-04-18 17:57:26
  * @FilePath: \毕设\webFinal\src\views\RegestView\index.vue
  * @Description: 
  * 
@@ -148,9 +148,10 @@ export default {
   }
   .loginBox2 {
     margin: 0 auto;
-    margin-top: 220px;
+    margin-top: 160px;
     width: 700px;
-    height: 570px;
+    padding-bottom:30px;
+    // height: 570px;
     background: rgba($color: #fff, $alpha: 0.8);
     border-radius: 40px;
     overflow: hidden;

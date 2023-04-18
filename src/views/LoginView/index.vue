@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:17:03
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 09:50:50
+ * @LastEditTime: 2023-04-18 17:56:25
  * @FilePath: \毕设\webFinal\src\views\LoginView\index.vue
  * @Description: 
  * 
@@ -44,7 +44,7 @@
                 placeholder="只能输入大小写字母、数字、下划线"
               ></el-input>
             </el-form-item>
-            <el-form-item style="margin: 50px 0 0 260px">
+            <el-form-item style="margin: 50px 0 0 260px" label-width="200">
               <el-button type="primary" @click="submitForm('formLabelAlign')"
                 >登录</el-button
               >
@@ -148,7 +148,7 @@ export default {
     margin: 0 auto;
     margin-top: 220px;
     width: 600px;
-    height: 390px;
+    padding-bottom: 30px;
     background: rgba($color: #fff, $alpha: 0.8);
     border-radius: 40px;
     overflow: hidden;
