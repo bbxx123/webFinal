@@ -123,7 +123,7 @@ export default {
           meta: { year: 2020, people: "dev" },
           mime: this.file.type,
         });
-        console.log(result);
+        // console.log(result);
         if (result.res.status === 200) {
           this.$message.success("上传成功！");
         } else {

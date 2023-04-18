@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-17 23:25:13
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\FirstView\FirstView.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 17:13:55
+ * @FilePath: \毕设\webFinal\src\views\FirstView\FirstView.vue
  * @Description:  [CQUCC-4-433](https://github.com/4-433) 正在找寻志同道合的小伙伴，欢迎前端、后端、UI加入我们！
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -11,11 +11,7 @@
 
 <template>
   <div class="aboutBox">
-    <bannerView
-      :imgUrl="this.img"
-      :titleName="this.title"
-      ref="banner"
-    ></bannerView>
+    <bannerView :imgUrl="this.img" :titleName="this.title" ref="banner"></bannerView>
     <div class="mainBox">
       <div class="sendBox">
         <div class="sendTitle" style="color: #fff">
@@ -31,72 +27,62 @@
       <div class="peopleBg2">
         <div class="sendTitle"><i class="el-icon-user"></i>热门文章：</div>
         <div class="peopleBox">
-          <div class="essayBox">
-            <div
-              class="essayItem"
-              v-for="(item, index) in essayList"
-              :key="index + 1"
-              :style="{
-                background: 'url(' + item.img + ')',
-                backgroundSize: 'cover',
-              }"
-              @click="goCheckEssay(item.router)"
-            >
+          <div class="essayBox"  v-if="essayList.length !== 0">
+            <div class="essayItem" v-for="(item, index) in essayList" :key="index + 1" :style="{
+              background: 'url(' + item.titleImgUrl + ')',
+              backgroundSize: 'cover',
+            }" @click="goCheckEssay(item)">
               <div class="essayShadow">
                 <div style="font-size: 35px; margin-top: 50px">
                   {{ item.title }}
                 </div>
                 <div style="color: #efefef; margin-top: 20px; height: 80px">
-                  {{ item.content }}
+                  {{ item.titleKey }}
                 </div>
-                <div style="margin-bottom: 20px">作者: {{ item.athour }}</div>
+                <div style="margin-bottom: 20px">作者: {{ item.auther }}</div>
                 <div>发布日期: {{ item.createTime }}</div>
               </div>
             </div>
           </div>
+          <el-empty v-else description="暂无数据"></el-empty>
         </div>
       </div>
       <div class="peopleBg">
         <div class="sendTitle"><i class="el-icon-user"></i>优秀作者：</div>
-        <div
-          style="
-            display: flex;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-          "
-        >
-          <div
-            v-for="(item, index) in peopleList"
-            :key="index + 1"
-            class="peopleBox"
-          >
-            <div class="peoplePic">
-              <img :src="item.imgUrl" alt="" />
-            </div>
-            <div class="peopleItem">
-              <div style="margin-top: 10px">作者：{{ item.name }}</div>
-              <div style="margin-top: 10px">作者分数：{{ item.integral }}</div>
-              <!-- <div>擅长方向：{{ item.place }}</div> -->
-            </div>
-            <!-- <div class="peopleItem2">
+        <div style="
+              display: flex;
+              flex-wrap: nowrap;
+              justify-content: space-between;
+          ">
+        <div v-for="(item, index) in peopleList" :key="index + 1" class="peopleBox">
+          <div class="peoplePic">
+            <img :src="item.imgUrl" alt="" />
+          </div>
+          <div class="peopleItem">
+            <div>作者：{{ item.name }}</div>
+            <div style="margin-top: 5px">作者分数：{{ item.integral*5 }}</div>
+            <div style="margin-top: 5px">粉丝数：{{ item.integral }}</div>
+            <!-- <div>擅长方向：{{ item.place }}</div> -->
+          </div>
+          <!-- <div class="peopleItem2">
             <a class="newsBox">
               {{ item.newTitle1 }} <br />
-              点击跳转👉</a
-            >
-            <a class="newsBox" :href="item.link">
-              {{ item.newTitle2 }} <br />
-              点击跳转👉</a
+                点击跳转👉</a
+              >
+              <a class="newsBox" :href="item.link">
+                {{ item.newTitle2 }} <br />
+                点击跳转👉</a
             >
             <a class="newsBox">
               {{ item.newTitle3 }} <br />
               点击跳转👉</a
             >
           </div> -->
-          </div>
         </div>
       </div>
+      </div>
 
-      <!-- <div class="contentBox">
+    <!-- <div class="contentBox">
         <div class="contentTitle">
           <div class="markdown-body">
             <markdown />
@@ -104,20 +90,20 @@
         </div>
       </div>
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
-        <div class="asideImg"> -->
+          <div class="asideImg"> -->
       <!-- 头像 -->
-      <!-- <el-avatar
-            src="https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg"
-            :size="size"
-            class="asidePic"
-          ></el-avatar>
-        </div>
-        <div class="asideTile">柴柴</div>
-        <div class="asideTile1">老爷保佑！前途无量！</div>
-        <el-divider>🌴</el-divider> -->
+    <!-- <el-avatar
+              src="https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg"
+              :size="size"
+              class="asidePic"
+            ></el-avatar>
+          </div>
+          <div class="asideTile">柴</div>
+          <div class="asideTile1">老爷保佑！前途无量！</div>
+          <el-divider>🌴</el-divider> -->
       <!-- 侧边栏底部图片 -->
       <!-- <img src="@/assets/huli.gif" alt="" class="bottomImg" />
-      </div> -->
+        </div> -->
       <div v-if="btnFlag" class="go-top" @click="backTop">
         <!-- 返回顶部图标 -->
         <img src="@/assets/backTop.png" alt="" class="backTopbtn" />
@@ -134,7 +120,7 @@ import footerView from "@/components/footerView/index.vue";
 import markdown from "../home.md";
 import "highlight.js/styles/github.css";
 import "github-markdown-css";
-import { searchAuther } from "@/api/use";
+import { searchAuther,searchSixPage } from "@/api/use";
 export default {
   name: "FirstView",
   components: { bannerView, markdown, footerView },
@@ -144,6 +130,7 @@ export default {
       let $ele = this.$refs.banner;
       this.bannerH = $ele.$el.offsetHeight;
     });
+    this.searchSixPage()
     this.searchAuther();
   },
   destroyed() {
@@ -151,86 +138,8 @@ export default {
   },
   data() {
     return {
-      peopleList: [
-        // {
-        //   name: "柴柴",
-        //   fnsNum: "127",
-        //   place: "vue开发",
-        //   peoplePic:
-        //     "https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg",
-        //   newTitle1: "vue实现防止抖动1",
-        //   newTitle2: "vue实现防止抖动2",
-        //   newTitle3: "vue实现防止抖动3",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-        // {
-        //   name: "柴柴",
-        //   fnsNum: "127",
-        //   place: "vue开发",
-        //   peoplePic:
-        //     "https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg",
-        //   newTitle1: "vue实现防止抖动",
-        //   newTitle2: "vue实现防止抖动2",
-        //   newTitle3: "vue实现防止抖动3",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-        // {
-        //   name: "柴柴",
-        //   fnsNum: "127",
-        //   place: "vue开发",
-        //   peoplePic:
-        //     "https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg",
-        //   newTitle1: "vue实现防止抖动",
-        //   newTitle2: "vue实现防止抖动2",
-        //   newTitle3: "vue实现防止抖动3",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-      ],
-      essayList: [
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          router: "114514",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        },
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg17.jpg",
-        },
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg15.jpg",
-        },
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        },
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        },
-        {
-          title: "flex布局详解",
-          content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-          athour: "柴柴",
-          createTime: "2023-4-9",
-          img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        },
-      ],
+      peopleList: [],
+      essayList: [],
       sendMeesion:
         "本网站将于明天中午十二点进行例行维护，维护时间大概为两小时左右，届时本网站将会关闭访问，敬请见谅！",
       //侧边栏头像大小
@@ -245,16 +154,22 @@ export default {
     };
   },
   methods: {
+    searchSixPage() {
+      searchSixPage().then((res) => {
+        if (res.status === 200) {
+          this.essayList = res.data;
+        }
+      });
+    },
     searchAuther() {
       searchAuther().then((res) => {
-        console.log(res);
         if (res.status === 200) {
           this.peopleList = res.data;
         }
       });
     },
     goCheckEssay(item) {
-      this.$router.push(`/paper/item/${item}`);
+      this.$router.push(`/paper/item/${item.id}`);
     },
     backTop() {
       const that = this;
@@ -297,6 +212,7 @@ export default {
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
 .sendBox {
   margin-top: 20px;
   padding-top: 20px;
@@ -305,6 +221,7 @@ export default {
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+
   .sendContent {
     animation: rotaryBlockFirst 20s linear infinite;
     white-space: nowrap;
@@ -312,6 +229,7 @@ export default {
     font-size: 18px;
     letter-spacing: 1px;
   }
+
   .sendContent2 {
     animation: rotaryBlockSecond 20s linear infinite;
     white-space: nowrap;
@@ -324,6 +242,7 @@ export default {
     0% {
       left: 0;
     }
+
     100% {
       left: -100%;
     }
@@ -333,11 +252,13 @@ export default {
     0% {
       left: 100%;
     }
+
     100% {
       left: 0;
     }
   }
 }
+
 .peopleBg {
   overflow: hidden;
   margin: 0 auto;
@@ -345,8 +266,9 @@ export default {
   padding: 0 60px;
   margin-bottom: 20px;
   background: #fff;
+
   .peopleBox {
-    width: 30%;
+    width: 29%;
     padding: 25px 0 25px 50px;
     margin-bottom: 15px;
     display: flex;
@@ -354,14 +276,17 @@ export default {
     box-shadow: 0 1px 10px rgb(0 0 0 / 10%);
     text-align: left;
     border-radius: 5px;
+
     .peopleItem {
       margin-top: 10px;
       margin-left: 60px;
       font-size: 17px;
     }
+
     .peopleItem2 {
       margin-left: 180px;
       font-size: 17px;
+
       .newsBox {
         border-radius: 5px;
         padding: 20px;
@@ -373,15 +298,20 @@ export default {
         border: 1px solid rgba($color: #d1d1d1, $alpha: 0.3);
       }
     }
+
     .peoplePic {
       width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
       img {
         width: 100%;
-        border-radius: 50%;
+        height: 100%;
       }
     }
   }
 }
+
 .peopleBg2 {
   overflow: hidden;
   margin: 0 auto;
@@ -391,10 +321,12 @@ export default {
   // flex-wrap: nowrap;
   margin-bottom: 15px;
   background: #fff;
+
   .essayBox {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
     .essayItem {
       cursor: pointer;
       border-radius: 5px;
@@ -403,6 +335,7 @@ export default {
       height: 320px;
       background: pink;
     }
+
     .essayShadow {
       letter-spacing: 1px;
       overflow: hidden;
@@ -419,6 +352,7 @@ export default {
     }
   }
 }
+
 .aboutBox {
   height: 100%;
   // 背景图片

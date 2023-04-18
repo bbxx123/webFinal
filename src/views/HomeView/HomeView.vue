@@ -29,7 +29,7 @@
         <div class="btnBox">
           <!-- <el-button round @click="clickHome" class="btnStyle">首页</el-button> -->
           <el-button round class="btnStyle" @click="goLogin">登录</el-button>
-          <el-button round class="btnStyle">注册</el-button>
+          <el-button round class="btnStyle" @click="$router.push('/regest')">注册</el-button>
           <el-button round class="btnStyle">管理员后台</el-button>
         </div>
         <!-- 链接图标模块 -->
@@ -135,7 +135,7 @@ export default {
     },
     goQQ() {
       //qq弹窗内容
-      this.$alert("柴柴：2787922490(はじかの)", "QQ", {
+      this.$alert("柴：2787922490(はじかの)", "QQ", {
         confirmButtonText: "确定",
       });
     },

@@ -1,9 +1,9 @@
 /*
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-15 08:38:05
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-16 17:57:22
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\api\use.js
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 16:56:29
+ * @FilePath: \毕设\webFinal\src\api\use.js
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -17,15 +17,81 @@ export function Login() {
         method: 'get',
     })
 }
+export function searchSixPage() {
+    return serve({
+        url: '/searchSixPage',
+        method: 'get',
+    })
+}
+export function searchNinePage() {
+    return serve({
+        url: '/searchNinePage',
+        method: 'get',
+    })
+}
+export function searchOnePage() {
+    return serve({
+        url: '/searchOnePage',
+        method: 'get',
+    })
+}
 export function searchAuther() {
     return serve({
         url: '/searchAuther',
         method: 'get',
     })
 }
+export function deleteWatch() {
+    return serve({
+        url: '/deleteWatch',
+        method: 'get',
+    })
+}
+export function watchInfo() {
+    return serve({
+        url: '/watchInfo',
+        method: 'get',
+    })
+}
+export function watchR(data) {
+    return serve({
+        url: '/watch',
+        method: 'post',
+        data
+    })
+}
+export function isWatch(data) {
+    return serve({
+        url: '/isWatch',
+        method: 'post',
+        data
+    })
+}
+
+export function changeLikeStatus(data) {
+    return serve({
+        url: '/changeLikeStatus',
+        method: 'post',
+        data
+    })
+}
+export function changeCaseStatus(data) {
+    return serve({
+        url: '/changeCaseStatus',
+        method: 'post',
+        data
+    })
+}
 export function searchIntegral(data) {
     return serve({
         url: '/searchIntegral',
+        method: 'post',
+        data
+    })
+}
+export function searchLikes(data) {
+    return serve({
+        url: '/searchLikes',
         method: 'post',
         data
     })
@@ -41,6 +107,13 @@ export function searchPaper(data) {
 export function newPaper(data) {
     return serve({
         url: '/newPaper',
+        method: 'post',
+        data
+    })
+}
+export function changeLikes(data) {
+    return serve({
+        url: '/changeLikes',
         method: 'post',
         data
     })

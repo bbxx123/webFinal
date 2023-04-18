@@ -1,9 +1,9 @@
 <!--
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:17:03
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-17 22:28:55
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\LoginView\index.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 09:50:50
+ * @FilePath: \毕设\webFinal\src\views\LoginView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -31,6 +31,8 @@
               <el-input
                 v-model="formLabelAlign.name"
                 style="width: 450px"
+                oninput="value=value.replace(/[\W]/g,'')"
+                placeholder="只能输入数字和字母"
               ></el-input>
             </el-form-item>
             <el-form-item label="密 码" prop="region">
@@ -38,6 +40,8 @@
                 show-password
                 v-model="formLabelAlign.region"
                 style="width: 450px"
+                oninput="value=value.replace(/[^\w_]/g,'')"
+                placeholder="只能输入大小写字母、数字、下划线"
               ></el-input>
             </el-form-item>
             <el-form-item style="margin: 50px 0 0 260px">
@@ -54,7 +58,7 @@
 </template>
 
 <script>
-import { Login } from "@/api/use.js";
+import { Login,deleteWatch } from "@/api/use.js";
 export default {
   data() {
     return {
@@ -69,10 +73,15 @@ export default {
     };
   },
   mounted() {
-    localStorage.removeItem("name");
     localStorage.removeItem("imgUrlS");
+    this.deleteWatch()
   },
   methods: {
+    deleteWatch() {
+      deleteWatch().then(res=> {
+        // console.log(res);
+      })
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

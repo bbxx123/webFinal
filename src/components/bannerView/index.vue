@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:42:49
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-15 22:51:31
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\components\bannerView\index.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 17:01:09
+ * @FilePath: \毕设\webFinal\src\components\bannerView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -28,7 +28,7 @@
           >
             <el-menu-item index="about">首页</el-menu-item>
             <el-menu-item index="blog">博客</el-menu-item>
-            <el-menu-item index="back">后台</el-menu-item>
+            <el-menu-item index="watch">浏览记录</el-menu-item>
             <el-submenu index="2">
               <template slot="title">友链</template>
               <el-menu-item index="2-1" class="friendList"
@@ -70,7 +70,7 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       this.$router.push(`/${key}`);
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
   },
 };

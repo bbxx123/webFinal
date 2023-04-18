@@ -1,9 +1,9 @@
 <!--
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2022-11-09 20:41:58
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-09 21:08:42
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\components\cardView\index.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 10:39:02
+ * @FilePath: \毕设\webFinal\src\components\cardView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by Chai chai 2787922490@qq.com, All Rights Reserved. 
@@ -12,10 +12,10 @@
   <div class="card-warp">
     <div class="content">
       <div class="cover">
-        <img :src="imgUrl" alt="" />
+        <img :src="imgUrl" alt=""/>
       </div>
     </div>
-    <div class="mask">
+    <div class="mask" >
       <div class="description">
         <div class="name">
           {{ name }}
@@ -23,6 +23,7 @@
         <div class="bio">
           {{ selfContent }}
         </div>
+        <el-button plain style="margin-top:40px" @click="topOneClick()">查看详情👉</el-button>
       </div>
     </div>
   </div>
@@ -31,6 +32,10 @@
 <script>
 export default {
   props: {
+    teams: {
+      type:Array,
+      require:true
+    },
     imgUrl: {
       required: true,
     },
@@ -45,6 +50,11 @@ export default {
       require: true,
     },
   },
+  methods:{
+    topOneClick(){
+      this.$router.push(`/paper/item/${this.teams[0].id}`);
+    }
+  }
 };
 </script>
 

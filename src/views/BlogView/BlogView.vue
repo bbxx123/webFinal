@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-16 23:07:52
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BlogView\BlogView.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 17:12:10
+ * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -20,6 +20,7 @@
         type="primary"
         round
         style="margin-top: 20px"
+        @click="goWatch"
         >浏览记录</el-button
       >
     </div>
@@ -32,15 +33,16 @@
             v-for="(user, index) in teams"
             class="card"
             :key="index"
-            :name="user.name"
+            :name="user.title"
             :tags="user.tags"
-            :selfContent="user.selfContent"
-            :imgUrl="user.imgUrl"
+            :selfContent="user.titleKey"
+            :imgUrl="user.titleImgUrl"
+            :teams='teams'
           ></cardView>
         </div>
         <div>
-          <div class="headerTitle2">TOP前10</div>
-          <div style="margin: 20px 0 0 180px">
+          <div class="headerTitle2">TOP前9</div>
+          <div style="margin: 20px 0 0 100px">
             <ul
               class="headerItem"
               v-for="(item, index) in asseyList"
@@ -50,7 +52,7 @@
                 style="margin-bottom: 23px; cursor: pointer"
                 @click="clickItem(item)"
               >
-                {{ item.title }} ………………………… {{ item.createTime }}
+                {{ item.title }} ………………… {{ item.createTime }}
               </li>
             </ul>
           </div>
@@ -81,7 +83,7 @@
           </div>
         </div>
         <div class="peopleBox">
-          <div class="essayBox">
+          <div class="essayBox" v-if="essayList.length !== 0">
             <div
               class="essayItem"
               v-for="(item, index) in essayList"
@@ -104,6 +106,7 @@
               </div>
             </div>
           </div>
+          <el-empty v-else description="暂无数据"></el-empty>
         </div>
         <el-pagination
           layout="prev, pager, next"
@@ -128,7 +131,7 @@ import footerView from "@/components/footerView/index.vue";
 import bannerList1 from "./components/bannerList1.vue";
 import bannerList2 from "./components/bannerList2.vue";
 import bannerList3 from "./components/bannerList3.vue";
-import { searchPaper } from "@/api/use";
+import { searchPaper,searchNinePage,searchOnePage } from "@/api/use";
 export default {
   name: "BlogView",
   components: {
@@ -143,68 +146,9 @@ export default {
     return {
       page: 0,
       total: 0,
-      essayList: [
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg17.jpg",
-        // },
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg15.jpg",
-        // },
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-        // {
-        //   title: "flex布局详解",
-        //   content: "本文详细描述了flex布局的几种常见属性及具体的示例",
-        //   athour: "柴柴",
-        //   createTime: "2023-4-9",
-        //   img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
-        // },
-      ],
-      asseyList: [
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-        { title: "flex布局大全", createTime: "2023-4-10" },
-      ],
+      essayList: [],
+      asseyList: [],
       teams: [
-        {
-          name: "如何将自己的项目部署到服务器",
-          selfContent: "上海市长宁区金钟路968号1幢18号楼一层商铺18-101",
-          imgUrl:
-            "https://4433studio.oss-cn-hangzhou.aliyuncs.com/headPortrait/chaichai.jpg",
-        },
       ],
       restaurants: [],
       state2: "",
@@ -219,8 +163,24 @@ export default {
   },
 
   methods: {
+    goWatch() {
+      this.$router.push('/watch')
+    },
+    searchNinePage() {
+      searchNinePage().then(res => {
+        if(res.status === 200) {
+          this.asseyList = res.data
+        }
+      })
+    },
+    searchOnePage() {
+      searchOnePage().then(res => {
+        if(res.status === 200) {
+          this.teams = res.data
+        }
+      })
+    },
     currentChange(item) {
-      console.log(item - 1, "item");
       this.essayList = [];
       searchPaper({ page: item - 1 }).then((res) => {
         this.essayList = res.data.data;
@@ -228,7 +188,6 @@ export default {
       });
     },
     goCheckEssay(item) {
-      // console.log(item.id);
       this.$router.push(`/paper/item/${item.id}`);
     },
     getList() {
@@ -246,6 +205,8 @@ export default {
           this.total = res.data.total;
         }
       });
+      this.searchNinePage()
+      this.searchOnePage()
     },
     goWrite() {
       this.$router.push("/writePaper");
@@ -253,31 +214,16 @@ export default {
     prevClick(item) {
       // console.log(item, "pr");
       this.currentChange(item);
-      // this.page = this.page - 1;
-      // this.essayList = [];
-      // searchPaper({ page: this.page }).then((res) => {
-      //   this.essayList = res.data.data;
-      //   this.total = res.data.total;
-      // });
     },
     nextClick(item) {
       this.currentChange(item);
-      // this.page = this.page + 1;
-      // this.essayList = [];
-      // searchPaper({ page: this.page }).then((res) => {
-      //   this.essayList = res.data.data;
-      //   this.total = res.data.total;
-      // });
     },
     clickItem(item) {
-      console.log(item);
+      this.$router.push(`/paper/item/${item.id}`);
     },
     clearSearch() {
       // console.log(111);
       this.getList();
-    },
-    handleIconClick(ev) {
-      console.log(ev);
     },
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
@@ -297,7 +243,7 @@ export default {
     },
     handleSelect(item) {
       this.essayList = [];
-      console.log(item);
+      // console.log(item);
       searchPaper({ id: `${item.address}` }).then((res) => {
         // console.log(res);
         this.essayList = res.data.data;
@@ -359,6 +305,7 @@ export default {
   flex-wrap: nowrap;
   border-radius: 25px;
   .headerItem {
+    text-align: left;
     color: #000;
     font-size: 18px;
     letter-spacing: 1px;
@@ -382,7 +329,7 @@ export default {
     font-weight: 600;
     text-align: left;
     margin-bottom: 30px;
-    margin-left: 175px;
+    margin-left: 95px;
   }
 }
 .aboutBox {

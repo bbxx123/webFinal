@@ -1,9 +1,9 @@
 <!--
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:10:57
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-17 22:50:46
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\Back1View\BackView.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 12:06:33
+ * @FilePath: \毕设\webFinal\src\views\Back1View\BackView.vue
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { newPaper, changeIntegral, searchIntegral } from "@/api/use";
+import { newPaper, changeIntegral, searchIntegral} from "@/api/use";
 import Upload from "@/components/uploadView/paperTitle.vue";
 
 import {
@@ -230,13 +230,14 @@ export default {
      * 阅读 https://tiptap.scrumpy.io/docs/guide/editor.html
      */
     onInit({ editor }) {
-      console.log(editor);
+      // console.log(editor);
     },
     changeIntegral() {
       const info = localStorage.getItem("imgUrlS");
       const data = {
         id: info.split("+")[3],
         integral: this.data,
+        type:true
       };
       changeIntegral(data).then((res) => {});
     },
@@ -290,7 +291,7 @@ export default {
   // width: 90%;
   padding: 0 30px;
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
   // 背景图片
   background: url("@/assets/bg4.png");
   background-repeat: no-repeat;

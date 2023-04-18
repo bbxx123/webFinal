@@ -1,9 +1,9 @@
 <!--
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:45:11
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-16 17:22:12
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\RegestView\index.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 17:21:06
+ * @FilePath: \毕设\webFinal\src\views\RegestView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2023 by Chai chai 2787922490@qq.com, All Rights Reserved. 
@@ -32,20 +32,26 @@
               <el-input
                 v-model="formLabelAlign.name"
                 style="width: 450px"
+                oninput="value=value.replace(/[\W]/g,'')"
+                placeholder="只能输入数字和字母"
               ></el-input>
             </el-form-item>
             <el-form-item label="密 码" prop="region">
               <el-input
                 show-password
                 v-model="formLabelAlign.region"
+                oninput="value=value.replace(/[^\w_]/g,'')"
                 style="width: 450px"
+                placeholder="只能输入大小写字母、数字、下划线"
               ></el-input>
             </el-form-item>
             <el-form-item label="再次输入密码" prop="regionAgain">
               <el-input
                 show-password
                 v-model="formLabelAlign.regionAgain"
+                oninput="value=value.replace(/[^\w_]/g,'')"
                 style="width: 450px"
+                placeholder="只能输入大小写字母、数字、下划线"
               ></el-input>
             </el-form-item>
             <el-form-item label="上传头像" required>
@@ -100,7 +106,7 @@ export default {
             return;
           } else {
             Regest(this.formLabelAlign).then((res) => {
-              console.log(res, "res");
+              // console.log(res, "res");
               if (res.status === 200) {
                 this.$message.success("注册成功！即将跳转登录页面！");
                 this.$router.push("login");

@@ -1,23 +1,17 @@
 <template>
   <div class="aboutBox">
-    <bannerView
-      :imgUrl="this.img"
-      :titleName="this.title"
-      ref="banner"
-    ></bannerView>
+    <bannerView :imgUrl="this.img" :titleName="this.titleU" ref="banner"></bannerView>
     <div class="mainBox">
       <div class="contentBox">
         <div class="contentTitle">
           <div class="markdown-body">
             <!-- <markdown /> -->
             <div>
-              <div
-                style="
-                  margin: 20px 0 20px 0px;
-                  font-size: 30px;
-                  font-weight: 600;
-                "
-              >
+              <div style="
+                      margin: 20px 0 20px 0px;
+                      font-size: 30px;
+                      font-weight: 600;
+                    ">
                 {{ essayList[0].title }}
               </div>
               <div style="margin: 0px 0 20px 0px; color: #ccc">
@@ -33,19 +27,14 @@
         <div style="font-size: 22px; font-weight: 600; margin-top: 20px">
           评论：
         </div>
-        <div
-          style="
-            margin-top: 20px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #dcdfe6;
-            disply: felx;
-            flex-wrap: nowrap;
-          "
-        >
-          <el-input
-            placeholder="发表评论~"
-            style="width: 700px; margin-right: 30px"
-          ></el-input>
+        <div style="
+                margin-top: 20px;
+                padding-bottom: 25px;
+                border-bottom: 1px solid #dcdfe6;
+                disply: felx;
+                flex-wrap: nowrap;
+              ">
+          <el-input placeholder="发表评论~" style="width: 700px; margin-right: 30px"></el-input>
           <el-button type="primary">发送</el-button>
         </div>
         <div>111</div>
@@ -54,11 +43,7 @@
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
         <div class="asideImg">
           <!-- 头像 -->
-          <el-avatar
-            :src="essayList[0].imgUrl"
-            :size="size"
-            class="asidePic"
-          ></el-avatar>
+          <el-avatar :src="essayList[0].imgUrl" :size="size" class="asidePic"></el-avatar>
         </div>
         <div class="asideTile">{{ essayList[0].auther }}</div>
         <!-- <div class="asideTile1">老爷保佑！前途无量！</div> -->
@@ -66,23 +51,25 @@
         <!-- 侧边栏底部图片 -->
         <!-- <img src="@/assets/huli.gif" alt="" class="bottomImg" /> -->
         <div style="margin-bottom: 20px">
-          <el-button type="warning" icon="el-icon-star-off" round
-            >关注</el-button
-          >
-          <el-button type="danger" icon="el-icon-thumb" round>点赞</el-button>
+          <el-button :type="!caseStatus ? 'warning' : 'info'" icon="el-icon-star-off" round @click="caseItem"
+            v-preventReClick>{{ !caseStatus
+              ? '关注' : '取消关注' }}</el-button>
+          <el-button :type="!likeStatus ? 'danger' : 'info'" icon="el-icon-thumb" round @click="likeItem"
+            v-preventReClick>{{ !likeStatus ?
+              '点赞' : '取消点赞' }}</el-button>
         </div>
       </div>
-      <div v-if="btnFlag" class="go-top" @click="backTop">
-        <!-- 返回顶部图标 -->
-        <img src="@/assets/backTop.png" alt="" class="backTopbtn" />
-      </div>
+      <!-- <div v-if="btnFlag" class="go-top" @click="backTop"> -->
+      <!-- 返回顶部图标 -->
+      <!-- <img src="@/assets/backTop.png" alt="" class="backTopbtn" />
+      </div> -->
     </div>
     <footerView></footerView>
   </div>
 </template>
 
 <script>
-import { searchPaper } from "@/api/use";
+import { changeIntegral, searchPaper, searchIntegral, changeLikes, searchLikes, isWatch,watchR, changeLikeStatus, changeCaseStatus } from "@/api/use";
 import bannerView from "@/components/bannerView/index";
 import footerView from "@/components/footerView/index.vue";
 // md文件地址
@@ -92,67 +79,116 @@ import "github-markdown-css";
 export default {
   name: "paperItem",
   components: { bannerView, markdown, footerView },
-  mounted() {
+ async mounted() {
+  const info = localStorage.getItem("imgUrlS");
+      const data = {
+        lookId: info.split("+")[3],
+        paperId: this.$route.path.split("/")[3],
+        caseStatus: this.caseStatus ? 0 : 1,
+        likeStatus: this.likeStatus ? 0 : 1
+      }
     this.getList();
-    // window.addEventListener("scroll", this.scrollToTop);
-    // this.$nextTick(() => {
-    //   let $ele = this.$refs.banner;
-    //   this.bannerH = $ele.$el.offsetHeight;
-    // });
-    this.backTop();
+    isWatch({paperId: this.$route.path.split("/")[3]}).then(res=>{
+      if(res.data.length === 0) {
+    watchR(data).then(res => {
+      if(res.status === 200) {
+        localStorage.setItem('paperId', this.$route.path.split("/")[3])
+      }
+      }) 
+      } else {
+        this.caseStatus = res.data[0].caseStatus === 1 ? false : true
+          this.likeStatus = res.data[0].likeStatus === 1 ? false : true
+      }
+    })
   },
-  // destroyed() {
-  //   window.removeEventListener("scroll", this.scrollToTop);
-  // },
   data() {
     return {
-      essayList: "",
+      caseStatus: false,
+      likeStatus: false,
+      essayList: [
+        { title: '' }
+      ],
       //侧边栏头像大小
       size: 90,
       bannerH: 0,
       locked: false,
       btnFlag: false,
       //导航背景图片
-      img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg16.jpg",
+      img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg7.jpg",
       // 导航文字说明
-      title: "文章详情",
+      titleU: "文章详情",
+      integralNum: 0,
+      likeNum: 0
     };
   },
   methods: {
-    getList() {
-      searchPaper({ id: `${this.$route.path.split("/")[3]}` }).then((res) => {
-        console.log(res);
+    changeLikeStatus() {
+      const info = localStorage.getItem("imgUrlS");
+      const data = {
+        lookId: info.split("+")[3],
+        paperId: this.$route.path.split("/")[3],
+        likeStatus: this.likeStatus ? 0 : 1
+      }
+      changeLikeStatus(data).then(res => {
+      })
+    },
+    changeCaseStatus() {
+      const info = localStorage.getItem("imgUrlS");
+      const data = {
+        lookId: info.split("+")[3],
+        paperId: this.$route.path.split("/")[3],
+        caseStatus: this.caseStatus ? 0 : 1
+      }
+      changeCaseStatus(data).then(res => {
+      })
+    },
+    caseItem() {
+      this.caseStatus = !this.caseStatus
+      const data = {
+        id: this.essayList[0].id,
+        integral: this.integralNum,
+        type: this.caseStatus ? false : true
+      };
+      changeIntegral(data).then(res => {
+        if (res.status === 200) {
+          this.$message.success(!this.caseStatus ? '取消关注成功！' : '关注成功！')
+          this.changeCaseStatus()
+          this.getList()
+        }
+      })
+    },
+    likeItem() {
+      this.likeStatus = !this.likeStatus
+      const data = {
+        id: this.$route.path.split("/")[3],
+        likes: this.likeNum,
+        type: this.likeStatus ? false : true
+      };
+      changeLikes(data).then(res => {
+        if (res.status === 200) {
+          this.$message.success(!this.likeStatus ? '取消点赞成功！' : '点赞成功！')
+          this.changeLikeStatus()
+          this.getList()
+        }
+      })
+    },
+    async getList() {
+      await searchPaper({ id: `${this.$route.path.split("/")[3]}` }).then((res) => {
         this.essayList = res.data.data;
         this.total = res.data.total;
-      });
+      });    
+         searchIntegral({ id: this.essayList[0].id }).then(res => {
+        if (res.status === 200) {
+          this.integralNum = res.data[0].integral
+        }
+      })
+      searchLikes({ id: `${this.$route.path.split("/")[3]}` }).then(res => {
+        if (res.status === 200) {
+          this.likeNum = res.data[0].likes
+        }
+      })
+      
     },
-    // backTop() {
-    //   const that = this;
-    //   let timer = setInterval(() => {
-    //     let ispeed = Math.floor(-that.scrollTop / 5);
-    //     document.documentElement.scrollTop = document.body.scrollTop =
-    //       that.scrollTop + ispeed;
-    //     if (that.scrollTop === 0) {
-    //       clearInterval(timer);
-    //     }
-    //   }, 16);
-    // },
-    // scrollToTop() {
-    //   const that = this;
-    //   let scrollTop =
-    //     window.pageYOffset ||
-    //     document.documentElement.scrollTop ||
-    //     document.body.scrollTop;
-    //   that.scrollTop = scrollTop;
-    //   that.locked = that.btnFlag = that.scrollTop > that.bannerH;
-    //   if (that.scrollTop > that.bannerH) {
-    //     that.locked = true;
-    //     that.btnFlag = true;
-    //   } else {
-    //     that.locked = false;
-    //     that.btnFlag = false;
-    //   }
-    // },
   },
 };
 </script>

@@ -1,9 +1,9 @@
 /*
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:10:57
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:31:30
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\router\index.js
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-18 17:00:54
+ * @FilePath: \毕设\webFinal\src\router\index.js
  * @Description: 
  * 
  * Copyright (c) 2023 by Chai chai 2787922490@qq.com, All Rights Reserved. 
@@ -30,7 +30,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      title: '柴柴の博客 | 柴柴的个人博客'
+      title: '柴の博客 | 柴的个人博客'
     }
   },
   {
@@ -38,7 +38,7 @@ const routes = [
     name: 'about',
     component: () => import('../views/FirstView/FirstView.vue'),
     meta: {
-      title: '首页 | 柴柴的个人博客'
+      title: '首页 | 柴的个人博客'
     }
   },
   {
@@ -46,7 +46,7 @@ const routes = [
     name: 'login',
     component: () => import('../views/LoginView/index.vue'),
     meta: {
-      title: '登录 | 柴柴的个人博客'
+      title: '登录 | 柴的个人博客'
     }
   },
   {
@@ -54,7 +54,7 @@ const routes = [
     name: 'regest',
     component: () => import('../views/RegestView/index.vue'),
     meta: {
-      title: '注册 | 柴柴的个人博客'
+      title: '注册 | 柴的个人博客'
     }
   },
   {
@@ -62,7 +62,15 @@ const routes = [
     name: 'blog',
     component: () => import('../views/BlogView/BlogView.vue'),
     meta: {
-      title: '博客 | 柴柴的个人博客'
+      title: '博客 | 柴的个人博客'
+    }
+  },
+  {
+    path: '/watch',
+    name: 'watch',
+    component: () => import('../views/watchView/index.vue'),
+    meta: {
+      title: '浏览记录 | 柴的个人博客'
     }
   },
   {
@@ -70,7 +78,7 @@ const routes = [
     name: 'paper',
     component: () => import('../views/BlogItemView/index.vue'),
     meta: {
-      title: '文章 | 柴柴的个人博客'
+      title: '文章 | 柴的个人博客'
     }
   },
   {
@@ -78,7 +86,7 @@ const routes = [
     name: 'writePaper',
     component: () => import('../views/Back1View/BackView.vue'),
     meta: {
-      title: '发布文章 | 柴柴的个人博客'
+      title: '发布文章 | 柴的个人博客'
     }
   },
   {
@@ -86,56 +94,56 @@ const routes = [
     name: 'back',
     component: () => import('../views/BackView/index.vue'),
     meta: {
-      title: '后台 | 柴柴的个人博客'
+      title: '后台 | 柴的个人博客'
     },
     children: [
       {
         path: '/userRoot',
         component: () => import('../views/BackView/components/userRoot.vue'),
         meta: {
-          title: '账号管理 | 柴柴的个人博客'
+          title: '账号管理 | 柴的个人博客'
         },
       },
       {
         path: '/inputRoot',
         component: () => import('../views/BackView/components/inputRoot.vue'),
         meta: {
-          title: '评论管理 | 柴柴的个人博客'
+          title: '评论管理 | 柴的个人博客'
         },
       },
       {
         path: '/integralRoot',
         component: () => import('../views/BackView/components/integralRoot.vue'),
         meta: {
-          title: '积分管理 | 柴柴的个人博客'
+          title: '积分管理 | 柴的个人博客'
         },
       },
       {
         path: '/noticeRoot',
         component: () => import('../views/BackView/components/noticeRoot.vue'),
         meta: {
-          title: '发布公告 | 柴柴的个人博客'
+          title: '发布公告 | 柴的个人博客'
         },
       },
       {
         path: '/noticeManageRoot',
         component: () => import('../views/BackView/components/noticeManageRoot.vue'),
         meta: {
-          title: '公告管理 | 柴柴的个人博客'
+          title: '公告管理 | 柴的个人博客'
         },
       },
       {
         path: '/processRoot',
         component: () => import('../views/BackView/components/processRoot.vue'),
         meta: {
-          title: '文章审核 | 柴柴的个人博客'
+          title: '文章审核 | 柴的个人博客'
         },
       },
       {
         path: '/authorRoot',
         component: () => import('../views/BackView/components/authorRoot.vue'),
         meta: {
-          title: '作者推荐 | 柴柴的个人博客'
+          title: '作者推荐 | 柴的个人博客'
         },
       }
     ]
@@ -145,7 +153,7 @@ const routes = [
     name: 'paper',
     component: () => import('../views/BlogItemView/index.vue'),
     meta: {
-      title: '文章详情 | 柴柴的个人博客'
+      title: '文章详情 | 柴的个人博客'
     }
   },
   {
@@ -153,7 +161,7 @@ const routes = [
     name: '404',
     component: () => import('../views/404View.vue'),
     meta: {
-      title: '404 | 柴柴的个人博客'
+      title: '404 | 柴的个人博客'
     }
   },
 
