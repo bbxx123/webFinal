@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 17:22:17
+ * @LastEditTime: 2023-04-21 17:35:33
  * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="peopleBox">
-          <div class="essayBox" v-if="essayList.length !== 0">
+          <div class="essayBox"  v-loading="loading" v-if="essayList.length !== 0">
             <div
               class="essayItem"
               v-for="(item, index) in essayList"
@@ -144,6 +144,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       page: 0,
       total: 0,
       essayList: [],
@@ -187,16 +188,19 @@ export default {
       })
     },
     currentChange(item) {
+      this.loading = true
       this.essayList = [];
       searchPaper({ page: item - 1 }).then((res) => {
         this.essayList = res.data.data;
         this.total = res.data.total;
       });
+      setTimeout(() => { this.loading = false},1000)
     },
     goCheckEssay(item) {
       this.$router.push(`/paper/item/${item.id}`);
     },
     getList() {
+      this.loading = true
       this.essayList = [];
       searchPaper(this.formData).then((res) => {
         if (res.status === 200) {
@@ -209,6 +213,8 @@ export default {
           });
           this.essayList = res.data.data;
           this.total = res.data.total;
+         
+          setTimeout(() => { this.loading = false},1000)
         }
       });
       this.searchNinePage()
@@ -248,12 +254,14 @@ export default {
       };
     },
     handleSelect(item) {
+      this.loading = true
       this.essayList = [];
       // console.log(item);
       searchPaper({ id: `${item.address}` }).then((res) => {
         // console.log(res);
         this.essayList = res.data.data;
         this.total = res.data.total;
+        setTimeout(() => { this.loading = false},1000)
       });
     },
   },
