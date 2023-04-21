@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 17:07:50
+ * @LastEditTime: 2023-04-21 17:22:17
  * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
@@ -163,7 +163,6 @@ export default {
   },
   watch:{
     state2: function(newN,oldN) {
-      console.log(newN,oldN);
       if(newN === '') {
         this.clearSearch()
       }
