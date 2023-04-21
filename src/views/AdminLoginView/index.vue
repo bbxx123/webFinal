@@ -2,8 +2,8 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:17:03
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-19 14:30:41
- * @FilePath: \毕设\webFinal\src\views\LoginView\index.vue
+ * @LastEditTime: 2023-04-20 14:40:38
+ * @FilePath: \毕设\webFinal\src\views\AdminLoginView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -16,7 +16,7 @@
           style="margin-left: 50px"
           class="loginTitle"
           @back="goBack"
-          content="欢迎来到登录页"
+          content="欢迎来到管理员登录页"
         >
         </el-page-header>
         <div style="width: 550px; margin: 0 auto; margin-top: 70px">
@@ -45,7 +45,7 @@
               ></el-input>
             </el-form-item>
             <el-form-item style="margin: 50px 0 0 260px;text-align: right;" label-width="200">
-              <el-button @click="goRegest">去注册</el-button>
+              <!-- <el-button @click="goRegest">去注册</el-button> -->
               <el-button type="primary" @click="submitForm('formLabelAlign')"
                 >登录</el-button
               >
@@ -91,8 +91,8 @@ export default {
               res.data.forEach((item) => {
                 if (item.name === this.formLabelAlign.name) {
                   item.region === this.formLabelAlign.region
-                    ? this.$router.push("/about") &&
-                      this.$message.success("登录成功！") &&
+                    ? item.root !== 0 ? this.$router.push("/userRoot") &&
+                      this.$message.success(`尊敬的${item.name}，欢迎进入后台~`) &&
                       localStorage.setItem(
                         "imgUrlS",
                         item.imgUrl +
@@ -105,6 +105,7 @@ export default {
                           "+" +
                           item.integral
                       )
+                      :this.$message.error('您无权进入后台！')
                     : this.$message.error("密码错误！请重试！");
                 }
               });

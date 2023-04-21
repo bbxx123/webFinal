@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:12:49
+ * @LastEditTime: 2023-04-19 15:12:32
  * @FilePath: \毕设\webFinal\src\views\watchView\index.vue
  * @Description:  [CQUCC-4-433](https://github.com/4-433) 正在找寻志同道合的小伙伴，欢迎前端、后端、UI加入我们！
  * 
@@ -261,6 +261,8 @@
     margin: 0 auto;
     width: 83%;
     padding: 0 60px;
+    margin-top: 10px;
+    border-radius: 25px;
     // display: flex;
     // flex-wrap: nowrap;
     margin-bottom: 15px;
@@ -310,9 +312,11 @@
       position: relative;
       width: 80%;
       margin: 0 auto;
+      margin-top: 10px;
       box-shadow: 0 1px 10px rgb(0 0 0 / 10%);
       background-color: rgba($color: #1a1a1a, $alpha: 0.8);
       padding-bottom: 15px;
+      overflow: hidden;
   
       .contentBox {
         width: 71%;

@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:12:10
+ * @LastEditTime: 2023-04-21 17:07:50
  * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
@@ -98,7 +98,7 @@
                 <div style="font-size: 35px; margin-top: 50px">
                   {{ item.title }}
                 </div>
-                <div style="color: #efefef; margin-top: 20px; height: 80px">
+                <div style="color: #efefef;font-size:30px margin-top: 20px; height: 80px">
                   {{ item.titleKey }}
                 </div>
                 <div style="margin-bottom: 20px">作者: {{ item.auther }}</div>
@@ -161,7 +161,14 @@ export default {
   created() {
     this.getList();
   },
-
+  watch:{
+    state2: function(newN,oldN) {
+      console.log(newN,oldN);
+      if(newN === '') {
+        this.clearSearch()
+      }
+    }
+  },
   methods: {
     goWatch() {
       this.$router.push('/watch')
@@ -356,6 +363,7 @@ export default {
     overflow: hidden;
     width: 80%;
     margin: 0 auto;
+    margin-top: 10px;
     box-shadow: 0 1px 10px rgb(0 0 0 / 10%);
     background-color: rgba($color: #1a1a1a, $alpha: 0.8);
     padding-bottom: 15px;

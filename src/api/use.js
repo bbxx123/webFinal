@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-15 08:38:05
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 16:56:29
+ * @LastEditTime: 2023-04-21 15:36:18
  * @FilePath: \毕设\webFinal\src\api\use.js
  * @Description: 
  * 
@@ -12,6 +12,12 @@ import axios from "axios";
 import serve from "./request"
 
 export function Login() {
+    return serve({
+        url: '/search',
+        method: 'get',
+    })
+}
+export function search() {
     return serve({
         url: '/search',
         method: 'get',
@@ -51,6 +57,100 @@ export function watchInfo() {
     return serve({
         url: '/watchInfo',
         method: 'get',
+    })
+}
+export function searchMsg() {
+    return serve({
+        url: '/searchMsg',
+        method: 'get',
+    })
+}
+export function searchHomeMsg() {
+    return serve({
+        url: '/searchHomeMsg',
+        method: 'get',
+    })
+}
+export function changeAllMsg() {
+    return serve({
+        url: '/changeAllMsg',
+        method: 'get',
+    })
+}
+export function searchAllInput() {
+    return serve({
+        url: '/searchAllInput',
+        method: 'get',
+    })
+}
+export function deleteInput(data) {
+    return serve({
+        url: '/deleteInput',
+        method: 'post',
+        data
+    })
+}
+export function addMsg(data) {
+    return serve({
+        url: '/addMsg',
+        method: 'post',
+        data
+    })
+}
+export function delMsg(data) {
+    return serve({
+        url: '/delMsg',
+        method: 'post',
+        data
+    })
+}
+export function changeMsg(data) {
+    return serve({
+        url: '/changeMsg',
+        method: 'post',
+        data
+    })
+}
+export function change(data) {
+    return serve({
+        url: '/change',
+        method: 'post',
+        data
+    })
+}
+export function changeuserRoot(data) {
+    return serve({
+        url: '/changeuserRoot',
+        method: 'post',
+        data
+    })
+}
+export function changePoint(data) {
+    return serve({
+        url: '/changePoint',
+        method: 'post',
+        data
+    })
+}
+export function deluser(data) {
+    return serve({
+        url: '/deluser',
+        method: 'post',
+        data
+    })
+}
+export function addinput(data) {
+    return serve({
+        url: '/addinput',
+        method: 'post',
+        data
+    })
+}
+export function searchInput(data) {
+    return serve({
+        url: '/searchInput',
+        method: 'post',
+        data
     })
 }
 export function watchR(data) {

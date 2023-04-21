@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:13:55
+ * @LastEditTime: 2023-04-21 15:38:54
  * @FilePath: \毕设\webFinal\src\views\FirstView\FirstView.vue
  * @Description:  [CQUCC-4-433](https://github.com/4-433) 正在找寻志同道合的小伙伴，欢迎前端、后端、UI加入我们！
  * 
@@ -120,7 +120,7 @@ import footerView from "@/components/footerView/index.vue";
 import markdown from "../home.md";
 import "highlight.js/styles/github.css";
 import "github-markdown-css";
-import { searchAuther,searchSixPage } from "@/api/use";
+import { searchAuther,searchSixPage,searchHomeMsg } from "@/api/use";
 export default {
   name: "FirstView",
   components: { bannerView, markdown, footerView },
@@ -132,6 +132,7 @@ export default {
     });
     this.searchSixPage()
     this.searchAuther();
+    this.searchHomeMsg()
   },
   destroyed() {
     window.removeEventListener("scroll", this.scrollToTop);
@@ -154,6 +155,13 @@ export default {
     };
   },
   methods: {
+    searchHomeMsg(){
+      searchHomeMsg().then(res=>{
+        if(res.status === 200) {
+          this.sendMeesion = res.data[0].content
+        }
+      })
+    },
     searchSixPage() {
       searchSixPage().then((res) => {
         if (res.status === 200) {

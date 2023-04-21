@@ -1,9 +1,9 @@
 <!--
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:17:59
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BackView\components\inputRoot.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-21 15:26:10
+ * @FilePath: \毕设\webFinal\src\views\BackView\components\inputRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
 -->
@@ -13,14 +13,20 @@
     <!-- <el-button class="addBtn" type="primary">新增用户</el-button> -->
     <el-table :data="tableData" style="width: 98%; margin: 20px auto" border>
       <el-table-column
-        label="id"
-        property="id"
+        label="评论用户"
+        property="userName"
         align="center"
         min-width="200"
       />
       <el-table-column
-        label="留言内容"
-        property="inputContent"
+        label="评论内容"
+        property="content"
+        align="center"
+        min-width="200"
+      />
+      <el-table-column
+        label="评论时间"
+        property="createTime"
         align="center"
         min-width="200"
       />
@@ -34,7 +40,7 @@
         <!-- eslint-disable-next-line -->
         <template slot-scope="scope">
           <div class="table_optionItem">
-            <div class="mmu_tableBtn redBorder commonBtn">删除</div>
+            <div class="mmu_tableBtn redBorder commonBtn" @click="deleteInput(scope.row.id)">删除</div>
           </div>
         </template>
       </el-table-column>
@@ -43,13 +49,46 @@
 </template>
   
   <script>
-// import { SearchIput, DelInput } from "@/api/user";
+import { searchAllInput,deleteInput } from "@/api/use";
 export default {
   data() {
     return {
       tableData: [],
     };
   },
+  mounted() {
+    this.searchAllInput()
+  },
+  methods:{
+    deleteInput(row) {
+      this.$confirm('此操作将删除该评论, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then((status) => {
+          deleteInput({id:row}).then(res => {
+        if(res.status === 200) {
+          this.$message.success('删除成功！')
+          this.searchAllInput()
+        } else {
+          this.$message.error('删除失败！')
+        }
+      })
+        }).catch((status) => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+    },
+    searchAllInput() {
+      searchAllInput().then(res=>{
+        if(res.status === 200) {
+          this.tableData = res.data
+        }
+      })
+    }
+  }
 };
 </script>
   

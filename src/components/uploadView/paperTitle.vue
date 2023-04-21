@@ -24,6 +24,7 @@
         size="small"
         type="success"
         @click="submitForm"
+        :loading="loading"
         >② 上传封面</el-button
       >
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="resumeUpload">继续</el-button>
@@ -54,6 +55,7 @@ const client = new OSS({
 export default {
   data() {
     return {
+      loading: false,
       img: "",
       fileList: [],
       file: null,
@@ -101,8 +103,8 @@ export default {
       // console.log("this.uploadStatus",this.file, this.uploadStatus);
 
       this.percentage = 0;
+      this.loading = true
       try {
-        console.log(1111);
         //object-name可以自定义为文件名（例如file.txt）或目录（例如abc/test/file.txt）的形式，实现将文件上传至当前Bucket或Bucket下的指定目录。
         let result = await client.multipartUpload(this.file.name, this.file, {
           headers: {
@@ -123,6 +125,7 @@ export default {
         console.log(result);
         if (result.res.status === 200) {
           this.$message.success("上传成功！");
+          this.loading = false
         } else {
           this.$message.error("上传失败请重试！");
         }

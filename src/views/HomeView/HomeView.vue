@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-09 21:04:14
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\HomeView\HomeView.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-19 15:26:56
+ * @FilePath: \毕设\webFinal\src\views\HomeView\HomeView.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -30,7 +30,7 @@
           <!-- <el-button round @click="clickHome" class="btnStyle">首页</el-button> -->
           <el-button round class="btnStyle" @click="goLogin">登录</el-button>
           <el-button round class="btnStyle" @click="$router.push('/regest')">注册</el-button>
-          <el-button round class="btnStyle">管理员后台</el-button>
+          <el-button round class="btnStyle" @click="$router.push('/adminLogin')">管理员后台</el-button>
         </div>
         <!-- 链接图标模块 -->
         <!-- <div class="continueBox">

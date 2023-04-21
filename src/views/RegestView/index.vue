@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:45:11
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:57:26
+ * @LastEditTime: 2023-04-19 14:23:37
  * @FilePath: \毕设\webFinal\src\views\RegestView\index.vue
  * @Description: 
  * 
@@ -57,11 +57,11 @@
             <el-form-item label="上传头像" required>
               <Upload @func="getImg"></Upload>
             </el-form-item>
-            <el-form-item style="margin: 50px 0 0 240px">
+            <el-form-item style="margin: 50px 0 0 240px;text-align: right;" label-width="180" >
+              <el-button @click="goLogin">去登录</el-button>
               <el-button type="primary" @click="submitForm('formLabelAlign')"
                 >注册</el-button
               >
-              <el-button @click="goLogin">去登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -75,6 +75,7 @@ import Upload from "@/components/uploadView/index.vue";
 import { Regest } from "@/api/use.js";
 
 export default {
+  name:'regestView',
   components: { Upload },
   data() {
     return {
@@ -134,14 +135,29 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bgBox {
   width: 100vw;
   height: 100vh;
-  background-image: url("@/assets/bg5.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url("@/assets/bg12.jpg");
+  background-position: 0 0;
+  background-repeat: repeat-x;
   overflow: hidden;
+  animation: animatedBackground 80s linear infinite;
+
+@keyframes animatedBackground {
+  0% {
+    background-position: 0% 49%;
+  }
+
+  50% {
+    background-position: 100% 49%;
+  }
+
+  100% {
+    background-position: 0% 49%;
+  }
+}
   .coverBox {
     position: absolute;
     background: rgba($color: #000000, $alpha: 0.3);
@@ -152,7 +168,7 @@ export default {
     width: 700px;
     padding-bottom:30px;
     // height: 570px;
-    background: rgba($color: #fff, $alpha: 0.8);
+    background: rgba($color: #fff, $alpha: 0.6);
     border-radius: 40px;
     overflow: hidden;
     .loginTitle {

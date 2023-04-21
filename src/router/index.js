@@ -50,6 +50,14 @@ const routes = [
     }
   },
   {
+    path: '/adminLogin',
+    name: 'adminLogin',
+    component: () => import('../views/AdminLoginView/index.vue'),
+    meta: {
+      title: '管理员登录 | 柴的个人博客'
+    }
+  },
+  {
     path: '/regest',
     name: 'regest',
     component: () => import('../views/RegestView/index.vue'),

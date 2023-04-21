@@ -1,55 +1,109 @@
 <!--
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:17:59
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BackView\components\inputRoot.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-21 10:35:36
+ * @FilePath: \毕设\webFinal\src\views\BackView\components\noticeRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
 -->
 <template>
   <div class="userBg">
-    <h1 class="userTitle">发布公告</h1>
-    <!-- <el-button class="addBtn" type="primary">新增用户</el-button> -->
-    <el-table :data="tableData" style="width: 98%; margin: 20px auto" border>
+    <h1 class="userTitle" style="margin-top:20px">发布公告</h1>
+    <el-button class="addBtn" type="primary" @click="addNewMsg">新增公告</el-button>
+    <el-table :data="tableData" style="width: 98%; margin: 10px auto" border>
       <el-table-column
         label="id"
-        property="id"
+        property="msgId"
+        align="center"
+        min-width="40"
+      />
+      <el-table-column
+        label="公告信息"
+        property="content"
         align="center"
         min-width="200"
       />
       <el-table-column
-        label="留言内容"
-        property="inputContent"
+        label="发布人员"
+        property="userName"
         align="center"
-        min-width="200"
+        min-width="60"
       />
       <el-table-column
-        label="操作"
-        align="right"
-        header-align="center"
-        min-width="200"
-        fixed="right"
+        label="创建时间"
+        property="createTime"
+        align="center"
+        min-width="60"
+      />
+      <el-table-column
+        label="首页显示状态"
+        align="center"
+        min-width="50"
       >
-        <!-- eslint-disable-next-line -->
-        <template slot-scope="scope">
-          <div class="table_optionItem">
-            <div class="mmu_tableBtn redBorder commonBtn">删除</div>
-          </div>
-        </template>
-      </el-table-column>
+      <template slot-scope="scope">
+        <div>{{ scope.row.isShow === 0 ? "不显示" : "显示" }}</div>
+      </template>
+    </el-table-column>
+    <el-dialog title="发布公告" :visible.sync="dialogVisible" :append-to-body="true">
+      <el-form ref="ruleForm" :model="changeData" label-width="80px">
+        <el-form-item label="公告内容：" label-width="100px">
+          <el-input v-model="changeData.name" type="textarea"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="add">确 定</el-button>
+      </span>
+    </el-dialog>
     </el-table>
   </div>
 </template>
   
   <script>
-// import { SearchIput, DelInput } from "@/api/user";
+import { searchMsg,addMsg } from "@/api/use";
 export default {
   data() {
     return {
       tableData: [],
+      changeData:{},
+      dialogVisible:false
     };
   },
+  mounted() {
+    this.searchMsg()
+  },
+  methods:{
+    add() {
+      const info = localStorage.getItem("imgUrlS");
+      const data = {
+        userId: info.split("+")[3],
+        userName: info.split("+")[1],
+        content: this.changeData.name,
+        createTime: this.$dayjs(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+      }
+      addMsg(data).then(res=> {
+        if(res.status === 200) {
+          this.$message.success('发布成功！')
+          this.changeData = {}
+          this.searchMsg()
+          this.dialogVisible = false
+        } else {
+          this.$message.error('发布失败！')
+        }
+      })
+    },
+    addNewMsg() {
+      this.dialogVisible = true
+    },
+    searchMsg() {
+      searchMsg().then(res=> {
+        if(res.status ===200) {
+          this.tableData = res.data
+        }
+      })
+    }
+  }
 };
 </script>
   

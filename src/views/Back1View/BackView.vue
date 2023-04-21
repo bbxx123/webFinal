@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:10:57
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 12:06:33
+ * @LastEditTime: 2023-04-21 16:42:37
  * @FilePath: \毕设\webFinal\src\views\Back1View\BackView.vue
  * @Description: 
  * 
@@ -236,7 +236,7 @@ export default {
       const info = localStorage.getItem("imgUrlS");
       const data = {
         id: info.split("+")[3],
-        integral: this.data,
+        integral: this.data+4,
         type:true
       };
       changeIntegral(data).then((res) => {});
@@ -247,10 +247,11 @@ export default {
         name: info.split("+")[1],
         imgUrl: info.split("+")[0],
         title: this.titleText,
-        content: this.content,
+        content: this.content.replace(/'/g, '"'),
         createTime: this.$dayjs(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         titleKey: this.titleKey,
         titleImgUrl: this.titleImgUrl,
+        autherId: info.split("+")[3],
       };
       if (this.titleText === "") {
         this.$message.error("请输入文章标题");

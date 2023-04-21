@@ -1,9 +1,9 @@
 <!--
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 20:28:59
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:37:31
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BackView\index.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-20 15:31:12
+ * @FilePath: \毕设\webFinal\src\views\BackView\index.vue
  * @Description: 
  * 
  * Copyright (c) 2023 by Chai chai 2787922490@qq.com, All Rights Reserved. 
@@ -42,7 +42,7 @@
         <el-menu-item index="/processRoot">文章审核</el-menu-item>
         <el-menu-item index="/inputRoot">评论管理</el-menu-item>
         <el-menu-item index="/authorRoot">作者推荐</el-menu-item>
-        <el-menu-item index="/about">退出后台</el-menu-item>
+        <el-menu-item index="/">退出后台</el-menu-item>
       </el-submenu>
     </el-menu>
     <div class="contentBox">
