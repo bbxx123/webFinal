@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:10:57
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 16:42:37
+ * @LastEditTime: 2023-04-21 17:57:59
  * @FilePath: \毕设\webFinal\src\views\Back1View\BackView.vue
  * @Description: 
  * 
@@ -205,9 +205,7 @@ export default {
         new Indent(), // 减少缩进
       ],
       // 编辑器的内容
-      content: `
-        <h1>请输入文章内容</h1>
-      `,
+      content: `<h1>请输入文章内容</h1>`,
     };
   },
   mounted() {
@@ -236,7 +234,7 @@ export default {
       const info = localStorage.getItem("imgUrlS");
       const data = {
         id: info.split("+")[3],
-        integral: this.data+4,
+        integral: this.data,
         type:true
       };
       changeIntegral(data).then((res) => {});
