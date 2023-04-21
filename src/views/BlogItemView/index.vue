@@ -1,23 +1,17 @@
 <template>
   <div class="aboutBox">
-    <bannerView
-      :imgUrl="this.img"
-      :titleName="this.titleU"
-      ref="banner"
-    ></bannerView>
+    <bannerView :imgUrl="this.img" :titleName="this.titleU" ref="banner"></bannerView>
     <div class="mainBox">
       <div class="contentBox">
         <div class="contentTitle">
           <div class="markdown-body">
             <!-- <markdown /> -->
             <div>
-              <div
-                style="
-                  margin: 20px 0 20px 0px;
-                  font-size: 30px;
-                  font-weight: 600;
-                "
-              >
+              <div style="
+                    margin: 20px 0 20px 0px;
+                    font-size: 30px;
+                    font-weight: 600;
+                  ">
                 {{ essayList[0].title }}
               </div>
               <div style="margin: 0px 0 20px 0px; color: #ccc">
@@ -33,29 +27,19 @@
         <div style="font-size: 22px; font-weight: 600; margin-top: 20px">
           评论：
         </div>
-        <div
-          style="
-            margin-top: 20px;
-            padding-bottom: 25px;
-            padding-left: 25px;
-            border-bottom: 1px solid #dcdfe6;
-            disply: felx;
-            flex-wrap: nowrap;
-          "
-        >
-          <el-input
-            placeholder="发表评论~"
-            v-model="inputMsg"
-            style="width: 800px; margin-right: 30px"
-          ></el-input>
+        <div style="
+              margin-top: 20px;
+              padding-bottom: 25px;
+              padding-left: 25px;
+              border-bottom: 1px solid #dcdfe6;
+              disply: felx;
+              flex-wrap: nowrap;
+            ">
+          <el-input placeholder="发表评论~" v-model="inputMsg" style="width: 800px; margin-right: 30px"></el-input>
           <el-button type="primary" @click="goAddInput">发送</el-button>
         </div>
         <div v-if="inputList.length !== 0">
-          <div
-            style="padding: 15px 10px"
-            v-for="(item, index) in inputList"
-            :key="index + 1"
-          >
+          <div style="padding: 15px 10px" v-for="(item, index) in inputList" :key="index + 1">
             <div style="display: flex; flex-wrap: nowrap">
               <span class="peoplePic">
                 <img :src="item.imgUrl" alt="" />
@@ -78,11 +62,7 @@
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
         <div class="asideImg">
           <!-- 头像 -->
-          <el-avatar
-            :src="essayList[0].imgUrl"
-            :size="size"
-            class="asidePic"
-          ></el-avatar>
+          <el-avatar :src="essayList[0].imgUrl" :size="size" class="asidePic"></el-avatar>
         </div>
         <div class="asideTile">{{ essayList[0].auther }}</div>
         <!-- <div class="asideTile1">老爷保佑！前途无量！</div> -->
@@ -90,22 +70,13 @@
         <!-- 侧边栏底部图片 -->
         <!-- <img src="@/assets/huli.gif" alt="" class="bottomImg" /> -->
         <div style="margin-bottom: 20px">
-          <el-button
-            :type="!caseStatus ? 'warning' : 'info'"
-            icon="el-icon-star-off"
-            round
-            @click="caseItem"
-            v-preventReClick
-            >{{ !caseStatus ? "关注" : "取消关注" }}</el-button
-          >
-          <el-button
-            :type="!likeStatus ? 'danger' : 'info'"
-            icon="el-icon-thumb"
-            round
-            @click="likeItem"
-            v-preventReClick
-            >{{ !likeStatus ? "点赞" : "取消点赞" }}</el-button
-          >
+          <el-button :type="!caseStatus ? 'warning' : 'info'" icon="el-icon-star-off" round @click="caseItem"
+            v-preventReClick>{{ !caseStatus ? "关注" : "取消关注" }}</el-button>
+          <el-button :type="!likeStatus ? 'danger' : 'info'" icon="el-icon-thumb" round @click="likeItem"
+            v-preventReClick>{{ !likeStatus ? "点赞" : "取消点赞" }}</el-button>
+        </div>
+        <div>
+          <el-button plain style="margin-bottom:10px" @click="$router.push('/blog')">返回</el-button>
         </div>
       </div>
       <!-- <div v-if="btnFlag" class="go-top" @click="backTop"> -->
@@ -141,6 +112,7 @@ export default {
   name: "paperItem",
   components: { bannerView, markdown, footerView },
   async mounted() {
+    document.documentElement.scrollTop = 0;
     const info = localStorage.getItem("imgUrlS");
     const data = {
       lookId: info.split("+")[3],
@@ -164,7 +136,7 @@ export default {
   },
   data() {
     return {
-      autherId:'',
+      autherId: '',
       inputMsg: "",
       inputList: [],
       caseStatus: false,
@@ -178,7 +150,7 @@ export default {
       //导航背景图片
       img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg7.jpg",
       // 导航文字说明
-      titleU: "文章详情",
+      titleU: '',
       integralNum: 0,
       likeNum: 0,
     };
@@ -222,7 +194,7 @@ export default {
         paperId: this.$route.path.split("/")[3],
         likeStatus: this.likeStatus ? 0 : 1,
       };
-      changeLikeStatus(data).then((res) => {});
+      changeLikeStatus(data).then((res) => { });
     },
     changeCaseStatus() {
       const info = localStorage.getItem("imgUrlS");
@@ -231,7 +203,7 @@ export default {
         paperId: this.$route.path.split("/")[3],
         caseStatus: this.caseStatus ? 0 : 1,
       };
-      changeCaseStatus(data).then((res) => {});
+      changeCaseStatus(data).then((res) => { });
     },
     caseItem() {
       this.caseStatus = !this.caseStatus;
@@ -275,6 +247,7 @@ export default {
           this.total = res.data.total;
         }
       );
+      this.titleU = this.essayList[0].title
       searchIntegral({ id: this.autherId }).then((res) => {
         if (res.status === 200) {
           this.integralNum = res.data[0].integral;
