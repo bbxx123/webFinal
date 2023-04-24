@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 17:35:33
+ * @LastEditTime: 2023-04-24 15:49:14
  * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
@@ -204,7 +204,7 @@ export default {
       this.essayList = [];
       searchPaper(this.formData).then((res) => {
         if (res.status === 200) {
-          res.data.allData.forEach((item) => {
+          res.data.data.forEach((item) => {
             const data = {
               value: item.title,
               address: item.id,
