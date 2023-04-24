@@ -1,9 +1,9 @@
 <!--
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:17:59
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BackView\components\inputRoot.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-24 12:11:04
+ * @FilePath: \毕设\webFinal\src\views\BackView\components\processRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
 -->
@@ -19,11 +19,41 @@
         min-width="200"
       />
       <el-table-column
-        label="留言内容"
-        property="inputContent"
+        label="作者"
+        property="auther"
         align="center"
         min-width="200"
       />
+      <el-table-column
+        label="文章标题"
+        property="title"
+        align="center"
+        min-width="200"
+      />
+      <el-table-column
+        label="创建时间"
+        property="createTime"
+        align="center"
+        min-width="200"
+      />
+
+      <el-table-column
+        label="是否审核通过"
+        align="center"
+        min-width="200"
+      >
+    <template slot-scope="scope">{{ scope.row.passStatus === 0 ? '未通过' : '已通过' }}</template>
+    </el-table-column>
+    <el-table-column
+        label="驳回原因"
+        property="passContent"
+        align="center"
+        min-width="200"
+      >
+       <template slot-scope="scope">
+        {{ scope.row.passContent === '0' ? '暂无' : scope.row.passContent }}
+       </template>
+    </el-table-column>
       <el-table-column
         label="操作"
         align="right"
@@ -34,7 +64,7 @@
         <!-- eslint-disable-next-line -->
         <template slot-scope="scope">
           <div class="table_optionItem">
-            <div class="mmu_tableBtn redBorder commonBtn">删除</div>
+            <div class="mmu_tableBtn originFont" v-if="scope.row.passStatus === 0 && scope.row.passContent === '0'" @click="goCheck(scope.row.id)">审核</div>
           </div>
         </template>
       </el-table-column>
@@ -43,13 +73,28 @@
 </template>
   
   <script>
-// import { SearchIput, DelInput } from "@/api/user";
+import { searchAllPaper } from "@/api/use";
 export default {
   data() {
     return {
       tableData: [],
     };
   },
+  mounted() {
+    this.getList()
+  },
+  methods:{
+    getList() {
+      searchAllPaper().then(res=> {
+        if(res.status === 200) {
+          this.tableData = res.data
+        }
+      })
+    },
+    goCheck(item) {
+      this.$router.push(`/paper/root/${item}`);
+    }
+  }
 };
 </script>
   

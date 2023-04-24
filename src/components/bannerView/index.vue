@@ -18,6 +18,7 @@
         <div class="navBox">
           <div class="topTitle">chaichai.top</div>
           <el-menu
+          v-if="isShow"
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
@@ -62,8 +63,12 @@ export default {
       required: true,
     },
   },
+  created() {
+    this.$route.path.split("/")[2] === 'root' ? this.isShow = false : this.isShow = true
+  },
   data() {
     return {
+      isShow:true,
       activeIndex: "1",
     };
   },

@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:17:03
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-20 14:40:38
+ * @LastEditTime: 2023-04-24 15:35:18
  * @FilePath: \毕设\webFinal\src\views\AdminLoginView\index.vue
  * @Description: 
  * 
@@ -75,6 +75,7 @@ export default {
   },
   mounted() {
     localStorage.removeItem("imgUrlS");
+    localStorage.removeItem("isRead")
     this.deleteWatch()
   },
   methods: {

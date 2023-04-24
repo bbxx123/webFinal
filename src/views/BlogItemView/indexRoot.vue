@@ -23,41 +23,6 @@
           </div>
         </div>
       </div>
-      <div class="contentBox">
-        <div style="font-size: 22px; font-weight: 600; margin-top: 20px">
-          评论：
-        </div>
-        <div style="
-              margin-top: 20px;
-              padding-bottom: 25px;
-              padding-left: 25px;
-              border-bottom: 1px solid #dcdfe6;
-              disply: felx;
-              flex-wrap: nowrap;
-            ">
-          <el-input placeholder="发表评论~" v-model="inputMsg" style="width: 800px; margin-right: 30px"></el-input>
-          <el-button type="primary" @click="goAddInput">发送</el-button>
-        </div>
-        <div v-if="inputList.length !== 0">
-          <div style="padding: 15px 10px" v-for="(item, index) in inputList" :key="index + 1">
-            <div style="display: flex; flex-wrap: nowrap">
-              <span class="peoplePic">
-                <img :src="item.imgUrl" alt="" />
-              </span>
-              <span style="margin-left: 10px">
-                <div style="font-size: 18px; margin-top: 3px">
-                  {{ item.userName }}
-                </div>
-                <div style="color: #9a9a9a; margin-top: 5px">
-                  {{ item.createTime }}
-                </div>
-              </span>
-            </div>
-            <div class="contentMsg">{{ item.content }}</div>
-          </div>
-        </div>
-        <div style="padding:35px 10px;text-align:center;" v-else>暂无评论！</div>
-      </div>
 
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
         <div class="asideImg">
@@ -66,17 +31,19 @@
         </div>
         <div class="asideTile">{{ essayList[0].auther }}</div>
         <!-- <div class="asideTile1">老爷保佑！前途无量！</div> -->
-        <el-divider>🌴</el-divider>
+        <el-divider>审核意见</el-divider>
         <!-- 侧边栏底部图片 -->
         <!-- <img src="@/assets/huli.gif" alt="" class="bottomImg" /> -->
-        <div style="margin-bottom: 20px">
+        <!-- <div style="margin-bottom: 20px">
           <el-button :type="!caseStatus ? 'warning' : 'info'" icon="el-icon-star-off" round @click="caseItem"
             v-preventReClick>{{ !caseStatus ? "关注" : "取消关注" }}</el-button>
           <el-button :type="!likeStatus ? 'danger' : 'info'" icon="el-icon-thumb" round @click="likeItem"
             v-preventReClick>{{ !likeStatus ? "点赞" : "取消点赞" }}</el-button>
-        </div>
+        </div> -->
         <div>
-          <el-button plain style="margin-bottom:10px" @click="$router.push('/blog')">返回</el-button>
+          <el-button type="warning" style="margin-bottom:10px" @click="pass">通过</el-button>
+          <el-button type="danger" style="margin-bottom:10px" @click="notPass">驳回</el-button>
+          <el-button plain style="margin-bottom:10px" @click="$router.push('/processRoot')">返回</el-button>
         </div>
       </div>
       <!-- <div v-if="btnFlag" class="go-top" @click="backTop"> -->
@@ -85,22 +52,27 @@
       </div> -->
     </div>
     <footerView></footerView>
+    <el-dialog title="驳回" :visible.sync="dialogVisible" :append-to-body="true">
+      <el-form ref="ruleForm" :model="changeData" label-width="80px">
+        <el-form-item label="驳回理由：" label-width="100px">
+          <el-input v-model="changeData.passContent" type="textarea"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="back">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {
-  changeIntegral,
   searchPaper,
-  searchIntegral,
-  changeLikes,
-  searchLikes,
   isWatch,
+  isPass,
+  isBack,
   watchR,
-  changeLikeStatus,
-  changeCaseStatus,
-  addinput,
-  searchInput,
 } from "@/api/use";
 import bannerView from "@/components/bannerView/index";
 import footerView from "@/components/footerView/index.vue";
@@ -141,12 +113,12 @@ export default {
   },
   data() {
     return {
+      dialogVisible:false,
       autherId: '',
-      inputMsg: "",
-      inputList: [],
       caseStatus: false,
       likeStatus: false,
       essayList: [{ title: "" }],
+      changeData:{},
       //侧边栏头像大小
       size: 90,
       bannerH: 0,
@@ -161,109 +133,32 @@ export default {
     };
   },
   methods: {
-    searchInput() {
-      searchInput({ paperId: this.$route.path.split("/")[3] }).then((res) => {
-        if (res.status === 200) {
-          this.inputList = res.data;
-        }
-      });
-    },
-    goAddInput() {
-      if (this.inputMsg === "") {
-        this.$message.error("请输入评论！");
-        return;
+    back() {
+      const data = {
+        passContent: this.changeData.passContent,
+        id: this.$route.path.split("/")[3]
       }
-      const info = localStorage.getItem("imgUrlS");
-      const data = {
-        userId: info.split("+")[3],
-        paperId: this.$route.path.split("/")[3],
-        userName: info.split("+")[1],
-        content: this.inputMsg,
-        createTime: this.$dayjs(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        imgUrl: info.split("+")[0],
-      };
-      addinput(data).then((res) => {
-        if (res.status === 200) {
-          this.$message.success("评论成功！");
-          this.inputMsg = ''
-          this.getList();
+      isBack(data).then(res=>{
+        if(res.status === 200) {
+          this.$message.success('驳回成功！')
+          this.$router.push('/processRoot')
         } else {
-          this.$message.error("评论失败！");
+          this.$message.error('驳回失败！')
         }
-      });
+      })
     },
-    changeLikeStatus() {
-      const info = localStorage.getItem("imgUrlS");
-      const data = {
-        lookId: info.split("+")[3],
-        paperId: this.$route.path.split("/")[3],
-        likeStatus: this.likeStatus ? 0 : 1,
-      };
-      changeLikeStatus(data).then((res) => { });
+    notPass() {
+      this.dialogVisible = true
     },
-    changeCaseStatus() {
-      const info = localStorage.getItem("imgUrlS");
-      const data = {
-        lookId: info.split("+")[3],
-        paperId: this.$route.path.split("/")[3],
-        caseStatus: this.caseStatus ? 0 : 1,
-      };
-      changeCaseStatus(data).then((res) => { });
-    },
-    caseItem() {
-      this.caseStatus = !this.caseStatus;
-      const data = {
-        id: this.autherId,
-        integral: this.integralNum,
-        type: this.caseStatus ? true : false,
-      };
-      changeIntegral(data).then((res) => {
-        if (res.status === 200) {
-          this.$message.success(
-            !this.caseStatus ? "取消关注成功！" : "关注成功！"
-          );
-          this.changeCaseStatus();
-          this.getList();
+    pass() {
+      isPass({id:this.$route.path.split("/")[3]}).then(res=> {
+        if(res.status === 200) {
+          this.$message.success('审核通过！')
+          this.$router.push('/processRoot')
+        } else {
+          this.$message.error('通过失败！')
         }
-      });
-    },
-    likeItem() {
-      this.likeStatus = !this.likeStatus;
-      const data = {
-        id: this.$route.path.split("/")[3],
-        likes: this.likeNum,
-        type: this.likeStatus ? true : false,
-      };
-      changeLikes(data).then((res) => {
-        if (res.status === 200) {
-          this.$message.success(
-            !this.likeStatus ? "取消点赞成功！" : "点赞成功！"
-          );
-          this.changeLikeStatus();
-          this.getList();
-        }
-      });
-    },
-    async getList() {
-      await searchPaper({ id: `${this.$route.path.split("/")[3]}` }).then(
-        (res) => {
-          this.essayList = res.data.data;
-          this.autherId = res.data.data[0].autherId
-          this.total = res.data.total;
-        }
-      );
-      this.titleU = this.essayList[0].title
-      searchIntegral({ id: this.autherId }).then((res) => {
-        if (res.status === 200) {
-          this.integralNum = res.data[0].integral;
-        }
-      });
-      searchLikes({ id: `${this.$route.path.split("/")[3]}` }).then((res) => {
-        if (res.status === 200) {
-          this.likeNum = res.data[0].likes;
-        }
-      });
-      this.searchInput();
+      })
     },
     scrollToTop() {
       const that = this;
@@ -280,6 +175,16 @@ export default {
         that.locked = false;
         that.btnFlag = false;
       }
+    },
+    async getList() {
+      await searchPaper({ id: `${this.$route.path.split("/")[3]}` }).then(
+        (res) => {
+          this.essayList = res.data.data;
+          this.autherId = res.data.data[0].autherId
+          this.total = res.data.total;
+        }
+      );
+      this.titleU = this.essayList[0].title
     },
   },
 };

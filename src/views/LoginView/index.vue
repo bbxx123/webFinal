@@ -75,6 +75,7 @@ export default {
   },
   mounted() {
     localStorage.removeItem("imgUrlS");
+    localStorage.removeItem("isRead")
     this.deleteWatch()
   },
   methods: {

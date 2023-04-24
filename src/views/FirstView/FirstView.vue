@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 15:38:54
+ * @LastEditTime: 2023-04-24 15:27:10
  * @FilePath: \毕设\webFinal\src\views\FirstView\FirstView.vue
  * @Description:  [CQUCC-4-433](https://github.com/4-433) 正在找寻志同道合的小伙伴，欢迎前端、后端、UI加入我们！
  * 
@@ -49,7 +49,7 @@
       </div>
       <div class="peopleBg">
         <div class="sendTitle"><i class="el-icon-user"></i>优秀作者：</div>
-        <div style="
+        <div v-if="peopleList.length !== 0" style="
               display: flex;
               flex-wrap: nowrap;
               justify-content: space-between;
@@ -60,26 +60,12 @@
           </div>
           <div class="peopleItem">
             <div>作者：{{ item.name }}</div>
-            <div style="margin-top: 5px">作者分数：{{ item.integral*5 }}</div>
-            <div style="margin-top: 5px">粉丝数：{{ item.integral }}</div>
-            <!-- <div>擅长方向：{{ item.place }}</div> -->
+            <div style="margin-top: 5px">作者分数：{{ item.integral }}</div>
+            <div style="margin-top: 5px">粉丝数：{{ parseInt(item.integral/5) }}</div>
           </div>
-          <!-- <div class="peopleItem2">
-            <a class="newsBox">
-              {{ item.newTitle1 }} <br />
-                点击跳转👉</a
-              >
-              <a class="newsBox" :href="item.link">
-                {{ item.newTitle2 }} <br />
-                点击跳转👉</a
-            >
-            <a class="newsBox">
-              {{ item.newTitle3 }} <br />
-              点击跳转👉</a
-            >
-          </div> -->
         </div>
       </div>
+      <div v-else style="padding:10px 0 50px 0;font-size:20px">暂无推荐作者！</div>
       </div>
 
     <!-- <div class="contentBox">
@@ -110,6 +96,36 @@
       </div>
     </div>
     <footerView></footerView>
+    <el-dialog title="您有文章被退回" :visible.sync="dialogVisible" :append-to-body="true">
+      <div>您有{{ backInfo.length }}篇文章被管理员退回，请周知~</div>
+      <br>
+      <el-table
+      :data="backInfo"
+      style="width: 100%">
+      <el-table-column
+        prop="id"
+        label="文章id"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="title"
+        label="文章标题"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="文章创建时间">
+      </el-table-column>
+      <el-table-column
+        prop="passContent"
+        label="文章退回理由">
+      </el-table-column>
+    </el-table>
+    <div slot="footer">
+      <el-button @click="dialogVisible = false">暂不处理</el-button>
+      <el-button type="primary" @click="iKnow">我已知晓</el-button>
+    </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -120,7 +136,7 @@ import footerView from "@/components/footerView/index.vue";
 import markdown from "../home.md";
 import "highlight.js/styles/github.css";
 import "github-markdown-css";
-import { searchAuther,searchSixPage,searchHomeMsg } from "@/api/use";
+import { searchAuther,searchSixPage,searchHomeMsg,checkBack } from "@/api/use";
 export default {
   name: "FirstView",
   components: { bannerView, markdown, footerView },
@@ -130,6 +146,10 @@ export default {
       let $ele = this.$refs.banner;
       this.bannerH = $ele.$el.offsetHeight;
     });
+    const isRead = localStorage.getItem('isRead')
+    if(!isRead) {
+      this.checkBack()
+    }
     this.searchSixPage()
     this.searchAuther();
     this.searchHomeMsg()
@@ -139,10 +159,11 @@ export default {
   },
   data() {
     return {
+      dialogVisible:false,
       peopleList: [],
       essayList: [],
-      sendMeesion:
-        "本网站将于明天中午十二点进行例行维护，维护时间大概为两小时左右，届时本网站将会关闭访问，敬请见谅！",
+      backInfo:[],
+      sendMeesion: "",
       //侧边栏头像大小
       size: 90,
       bannerH: 0,
@@ -155,6 +176,19 @@ export default {
     };
   },
   methods: {
+    iKnow() {
+      localStorage.setItem('isRead',true)
+      this.dialogVisible = false
+    },
+    checkBack() {
+      const info = localStorage.getItem("imgUrlS");
+      checkBack({autherId: info.split("+")[3]}).then(res=>{
+        if(res.status === 200) {
+          this.backInfo = res.data
+          this.dialogVisible = true
+        }
+      })
+    },
     searchHomeMsg(){
       searchHomeMsg().then(res=>{
         if(res.status === 200) {

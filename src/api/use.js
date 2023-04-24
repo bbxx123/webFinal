@@ -2,7 +2,7 @@
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-15 08:38:05
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-21 15:36:18
+ * @LastEditTime: 2023-04-24 12:22:54
  * @FilePath: \毕设\webFinal\src\api\use.js
  * @Description: 
  * 
@@ -81,6 +81,40 @@ export function searchAllInput() {
     return serve({
         url: '/searchAllInput',
         method: 'get',
+    })
+}
+export function searchAllPaper() {
+    return serve({
+        url: '/searchAllPaper',
+        method: 'get',
+    })
+}
+export function isPass(data) {
+    return serve({
+        url: '/isPass',
+        method: 'post',
+        data
+    })
+}
+export function checkBack(data) {
+    return serve({
+        url: '/checkBack',
+        method: 'post',
+        data
+    })
+}
+export function isBack(data) {
+    return serve({
+        url: '/isBack',
+        method: 'post',
+        data
+    })
+}
+export function changeIsShow(data) {
+    return serve({
+        url: '/changeIsShow',
+        method: 'post',
+        data
     })
 }
 export function deleteInput(data) {

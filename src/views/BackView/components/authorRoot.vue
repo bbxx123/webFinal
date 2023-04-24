@@ -1,15 +1,16 @@
 <!--
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
- * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-11 23:17:59
- * @FilePath: \Vue-Second-dimensional-personal-blog\src\views\BackView\components\inputRoot.vue
+ * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
+ * @LastEditTime: 2023-04-23 17:00:52
+ * @FilePath: \毕设\webFinal\src\views\BackView\components\authorRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
 -->
 <template>
   <div class="userBg">
     <h1 class="userTitle">作者推荐</h1>
+    <!-- <p></p> -->
     <!-- <el-button class="addBtn" type="primary">新增用户</el-button> -->
     <el-table :data="tableData" style="width: 98%; margin: 20px auto" border>
       <el-table-column
@@ -19,8 +20,22 @@
         min-width="200"
       />
       <el-table-column
-        label="留言内容"
+        label="作者姓名"
+        property="name"
+        align="center"
+        min-width="200"
+      />
+      <el-table-column
+        label="发布文章"
         property="inputContent"
+        align="center"
+        min-width="200"
+      >
+      <template slot-scope="scope">{{ parseInt(scope.row.integral/5) }}</template>
+    </el-table-column>
+      <el-table-column
+        label="作者分数"
+        property="integral"
         align="center"
         min-width="200"
       />
@@ -34,7 +49,7 @@
         <!-- eslint-disable-next-line -->
         <template slot-scope="scope">
           <div class="table_optionItem">
-            <div class="mmu_tableBtn redBorder commonBtn">删除</div>
+            <div class="mmu_tableBtn originFont" @click="showThis(scope.row)">{{scope.row.showStatus === 0 ? '推荐该作者' : '取消推荐'}}</div>
           </div>
         </template>
       </el-table-column>
@@ -43,13 +58,39 @@
 </template>
   
   <script>
-// import { SearchIput, DelInput } from "@/api/user";
+import { search,changeIsShow } from "@/api/use";
 export default {
   data() {
     return {
       tableData: [],
     };
   },
+  mounted() {
+    this.getList()
+  },
+  methods:{
+    showThis(id) {
+      const data = {
+        id: id.id,
+        showStatus: id.showStatus === 0 ? 1 : 0
+      }
+      changeIsShow(data).then(res=>{
+        if(res.status === 200) {
+          this.$message.success(data.showStatus === 0 ? '取消推荐成功！' : '推荐成功！')
+          this.getList()
+        } else {
+          this.$message.error('失败！')
+        }
+      })
+    },
+    getList() {
+      search().then(res=>{
+        if(res.status === 200) {
+          this.tableData = res.data
+        }
+      })
+    }
+  }
 };
 </script>
   

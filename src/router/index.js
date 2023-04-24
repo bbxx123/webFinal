@@ -2,7 +2,7 @@
  * @Author: Chai chai 2787922490@qq.com
  * @Date: 2023-02-05 19:10:57
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-18 17:00:54
+ * @LastEditTime: 2023-04-23 17:20:05
  * @FilePath: \毕设\webFinal\src\router\index.js
  * @Description: 
  * 
@@ -162,6 +162,14 @@ const routes = [
     component: () => import('../views/BlogItemView/index.vue'),
     meta: {
       title: '文章详情 | 柴的个人博客'
+    }
+  },
+  {
+    path: '/paper/root/:id',
+    name: 'paper',
+    component: () => import('../views/BlogItemView/indexRoot.vue'),
+    meta: {
+      title: '管理员审核文章 | 柴的个人博客'
     }
   },
   {

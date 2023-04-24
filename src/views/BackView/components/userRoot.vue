@@ -2,7 +2,7 @@
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
  * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-20 17:20:51
+ * @LastEditTime: 2023-04-23 09:42:01
  * @FilePath: \毕设\webFinal\src\views\BackView\components\userRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
@@ -50,7 +50,6 @@
         <el-form-item label="密码：">
           <el-input v-model="changeData.region"></el-input>
         </el-form-item>
-
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
