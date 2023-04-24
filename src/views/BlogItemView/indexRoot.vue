@@ -1,17 +1,23 @@
 <template>
   <div class="aboutBox">
-    <bannerView :imgUrl="this.img" :titleName="this.titleU" ref="banner"></bannerView>
+    <bannerView
+      :imgUrl="this.img"
+      :titleName="this.titleU"
+      ref="banner"
+    ></bannerView>
     <div class="mainBox">
       <div class="contentBox">
         <div class="contentTitle">
           <div class="markdown-body">
             <!-- <markdown /> -->
             <div>
-              <div style="
-                    margin: 20px 0 20px 0px;
-                    font-size: 30px;
-                    font-weight: 600;
-                  ">
+              <div
+                style="
+                  margin: 20px 0 20px 0px;
+                  font-size: 30px;
+                  font-weight: 600;
+                "
+              >
                 {{ essayList[0].title }}
               </div>
               <div style="margin: 0px 0 20px 0px; color: #ccc">
@@ -27,7 +33,11 @@
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
         <div class="asideImg">
           <!-- 头像 -->
-          <el-avatar :src="essayList[0].imgUrl" :size="size" class="asidePic"></el-avatar>
+          <el-avatar
+            :src="essayList[0].imgUrl"
+            :size="size"
+            class="asidePic"
+          ></el-avatar>
         </div>
         <div class="asideTile">{{ essayList[0].auther }}</div>
         <!-- <div class="asideTile1">老爷保佑！前途无量！</div> -->
@@ -41,9 +51,18 @@
             v-preventReClick>{{ !likeStatus ? "点赞" : "取消点赞" }}</el-button>
         </div> -->
         <div>
-          <el-button type="warning" style="margin-bottom:10px" @click="pass">通过</el-button>
-          <el-button type="danger" style="margin-bottom:10px" @click="notPass">驳回</el-button>
-          <el-button plain style="margin-bottom:10px" @click="$router.push('/processRoot')">返回</el-button>
+          <el-button type="warning" style="margin-bottom: 10px" @click="pass"
+            >通过</el-button
+          >
+          <el-button type="danger" style="margin-bottom: 10px" @click="notPass"
+            >驳回</el-button
+          >
+          <el-button
+            plain
+            style="margin-bottom: 10px"
+            @click="$router.push('/processRoot')"
+            >返回</el-button
+          >
         </div>
       </div>
       <!-- <div v-if="btnFlag" class="go-top" @click="backTop"> -->
@@ -52,7 +71,11 @@
       </div> -->
     </div>
     <footerView></footerView>
-    <el-dialog title="驳回" :visible.sync="dialogVisible" :append-to-body="true">
+    <el-dialog
+      title="驳回"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+    >
       <el-form ref="ruleForm" :model="changeData" label-width="80px">
         <el-form-item label="驳回理由：" label-width="100px">
           <el-input v-model="changeData.passContent" type="textarea"></el-input>
@@ -67,19 +90,11 @@
 </template>
 
 <script>
-import {
-  searchPaper,
-  isWatch,
-  isPass,
-  isBack,
-  watchR,
-} from "@/api/use";
+import { searchPaper, isWatch, isPass, isBack, watchR } from "@/api/use";
 import bannerView from "@/components/bannerView/index";
 import footerView from "@/components/footerView/index.vue";
 // md文件地址
 import markdown from "../home.md";
-import "highlight.js/styles/github.css";
-import "github-markdown-css";
 export default {
   name: "paperItem",
   components: { bannerView, markdown, footerView },
@@ -113,12 +128,12 @@ export default {
   },
   data() {
     return {
-      dialogVisible:false,
-      autherId: '',
+      dialogVisible: false,
+      autherId: "",
       caseStatus: false,
       likeStatus: false,
       essayList: [{ title: "" }],
-      changeData:{},
+      changeData: {},
       //侧边栏头像大小
       size: 90,
       bannerH: 0,
@@ -127,7 +142,7 @@ export default {
       //导航背景图片
       img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg7.jpg",
       // 导航文字说明
-      titleU: '',
+      titleU: "",
       integralNum: 0,
       likeNum: 0,
     };
@@ -136,29 +151,29 @@ export default {
     back() {
       const data = {
         passContent: this.changeData.passContent,
-        id: this.$route.path.split("/")[3]
-      }
-      isBack(data).then(res=>{
-        if(res.status === 200) {
-          this.$message.success('驳回成功！')
-          this.$router.push('/processRoot')
+        id: this.$route.path.split("/")[3],
+      };
+      isBack(data).then((res) => {
+        if (res.status === 200) {
+          this.$message.success("驳回成功！");
+          this.$router.push("/processRoot");
         } else {
-          this.$message.error('驳回失败！')
+          this.$message.error("驳回失败！");
         }
-      })
+      });
     },
     notPass() {
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     pass() {
-      isPass({id:this.$route.path.split("/")[3]}).then(res=> {
-        if(res.status === 200) {
-          this.$message.success('审核通过！')
-          this.$router.push('/processRoot')
+      isPass({ id: this.$route.path.split("/")[3] }).then((res) => {
+        if (res.status === 200) {
+          this.$message.success("审核通过！");
+          this.$router.push("/processRoot");
         } else {
-          this.$message.error('通过失败！')
+          this.$message.error("通过失败！");
         }
-      })
+      });
     },
     scrollToTop() {
       const that = this;
@@ -180,11 +195,11 @@ export default {
       await searchPaper({ id: `${this.$route.path.split("/")[3]}` }).then(
         (res) => {
           this.essayList = res.data.data;
-          this.autherId = res.data.data[0].autherId
+          this.autherId = res.data.data[0].autherId;
           this.total = res.data.total;
         }
       );
-      this.titleU = this.essayList[0].title
+      this.titleU = this.essayList[0].title;
     },
   },
 };

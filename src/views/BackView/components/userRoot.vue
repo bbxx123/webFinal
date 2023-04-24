@@ -1,9 +1,9 @@
 <!--
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
- * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-23 09:42:01
- * @FilePath: \毕设\webFinal\src\views\BackView\components\userRoot.vue
+ * @LastEditors: Chai chai 2787922490@qq.com
+ * @LastEditTime: 2023-04-24 21:37:56
+ * @FilePath: \webFinal\src\views\BackView\components\userRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
 -->
@@ -12,37 +12,88 @@
     <h1 class="userTitle">账号管理</h1>
     <!-- <el-button class="addBtn" type="primary">新增用户</el-button> -->
     <el-table :data="tableData" style="width: 98%; margin: 20px auto" border>
-      <el-table-column label="id" property="id" align="center" min-width="200" />
-      <el-table-column label="用户名称" property="name" align="center" min-width="200" />
-      <el-table-column label="用户密码" property="region" align="center" min-width="200" />
+      <el-table-column
+        label="id"
+        property="id"
+        align="center"
+        min-width="200"
+      />
+      <el-table-column
+        label="用户名称"
+        property="name"
+        align="center"
+        min-width="200"
+      />
+      <el-table-column
+        label="用户密码"
+        property="region"
+        align="center"
+        min-width="200"
+      />
       <el-table-column label="用户头像" align="center">
-        <template slot-scope="{row}">
-          <el-popover placement="bottom-start" title="详情：" width="200" trigger="click">
-            <img v-if="row.imgUrl !== ''" :src="row.imgUrl" alt="" class="bannerImg">
+        <template slot-scope="{ row }">
+          <el-popover
+            placement="bottom-start"
+            title="详情："
+            width="200"
+            trigger="click"
+          >
+            <img
+              v-if="row.imgUrl !== ''"
+              :src="row.imgUrl"
+              alt=""
+              class="bannerImg"
+            />
             <div v-else>暂无</div>
-            <span slot="reference" class="processExplainBtn">
-              查看详情
-            </span>
+            <span slot="reference" class="processExplainBtn"> 查看详情 </span>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column label="用户权限" align="center" min-width="200">
         <template slot-scope="scope">
-          {{ scope.row.root === 1 ? '管理员' : scope.row.root === 3 ? '全站管理员' : '普通用户' }}
+          {{
+            scope.row.root === 1
+              ? "管理员"
+              : scope.row.root === 3
+              ? "全站管理员"
+              : "普通用户"
+          }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" header-align="center" min-width="200" fixed="right">
+      <el-table-column
+        label="操作"
+        align="center"
+        header-align="center"
+        min-width="200"
+        fixed="right"
+      >
         <!-- eslint-disable-next-line -->
         <template slot-scope="scope">
           <div class="table_optionItem">
-            <div class="mmu_tableBtn colorBorder" @click="changeInfo(scope.row)">修改账号</div>
-            <div class="mmu_tableBtn greenFont" @click="changeRoot(scope.row)">修改权限</div>
-            <div class="mmu_tableBtn redBorder commonBtn" @click="deleteUser(scope.row)">删除</div>
+            <div
+              class="mmu_tableBtn colorBorder"
+              @click="changeInfo(scope.row)"
+            >
+              修改账号
+            </div>
+            <div class="mmu_tableBtn greenFont" @click="changeRoot(scope.row)">
+              修改权限
+            </div>
+            <div
+              class="mmu_tableBtn redBorder commonBtn"
+              @click="deleteUser(scope.row)"
+            >
+              删除
+            </div>
           </div>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="修改账号信息" :visible.sync="dialogVisible" :append-to-body="true">
+    <el-dialog
+      title="修改账号信息"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+    >
       <el-form ref="ruleForm" :model="changeData" label-width="80px">
         <el-form-item label="账号：">
           <el-input v-model="changeData.name"></el-input>
@@ -56,7 +107,11 @@
         <el-button type="primary" @click="edit">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="修改账号权限" :visible.sync="dialogVisibleE" :append-to-body="true">
+    <el-dialog
+      title="修改账号权限"
+      :visible.sync="dialogVisibleE"
+      :append-to-body="true"
+    >
       <el-form ref="ruleForm" :model="changeData" label-width="80px">
         <el-form-item label="用户权限：" label-width="100px">
           <el-select
@@ -79,104 +134,111 @@
 </template>
   
 <script>
-import { search, change,deluser,changeuserRoot } from "@/api/use";
+import { search, change, deluser, changeuserRoot } from "@/api/use";
 export default {
   data() {
     return {
       dialogVisible: false,
       dialogVisibleE: false,
       tableData: [],
-      changeData: {}
+      changeData: {},
     };
   },
   mounted() {
-    this.getList()
+    this.getList();
   },
   methods: {
     changeRt() {
-      changeuserRoot({ id: this.changeData.id, root: this.changeData.root }).then(res => {
+      changeuserRoot({
+        id: this.changeData.id,
+        root: this.changeData.root,
+      }).then((res) => {
         if (res.status === 200) {
-          this.$message.success('修改成功！')
-          this.changeData = {},
-            this.dialogVisibleE = false
-          this.getList()
+          this.$message.success("修改成功！");
+          (this.changeData = {}), (this.dialogVisibleE = false);
+          this.getList();
         } else {
-          this.$message.error('修改失败！')
+          this.$message.error("修改失败！");
         }
-      })
+      });
     },
     edit() {
-      change({ id: this.changeData.id, name: this.changeData.name, region: this.changeData.region }).then(res => {
+      change({
+        id: this.changeData.id,
+        name: this.changeData.name,
+        region: this.changeData.region,
+      }).then((res) => {
         if (res.status === 200) {
-          this.$message.success('修改成功！')
-          this.changeData = {},
-            this.dialogVisible = false
-          this.getList()
+          this.$message.success("修改成功！");
+          (this.changeData = {}), (this.dialogVisible = false);
+          this.getList();
         } else {
-          this.$message.error('修改失败！')
+          this.$message.error("修改失败！");
         }
-      })
+      });
     },
     deleteUser(row) {
       const info = localStorage.getItem("imgUrlS");
-      const nowRoot = info.split("+")[2]
-      if (row.root < nowRoot || nowRoot == 3) {
-        this.delete(row)
+      const nowRoot = info.split("+")[2];
+      if (row.root < nowRoot || nowRoot === 3) {
+        this.delete(row);
       } else {
-        this.$message.error('您的权限不足！无法删除此账号！')
+        this.$message.error("您的权限不足！无法删除此账号！");
       }
     },
     delete(row) {
-      this.$confirm('此操作将永久删除该账号, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then((status) => {
-          if(status == 'confirm') {
-            deluser({ id: row.id }).then(res => {
-            if (res.status === 200) {
-              this.$message.success('删除成功!')
-              this.getList()
-            } else {
-              this.$message.error('删除失败')
-            }
-          })
+      this.$confirm("此操作将永久删除该账号, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then((status) => {
+          if (status == "confirm") {
+            deluser({ id: row.id }).then((res) => {
+              if (res.status === 200) {
+                this.$message.success("删除成功!");
+                this.getList();
+              } else {
+                this.$message.error("删除失败");
+              }
+            });
           }
-        }).catch((status) => {
+        })
+        .catch((status) => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
+            type: "info",
+            message: "已取消删除",
           });
         });
     },
     changeRoot(row) {
       const info = localStorage.getItem("imgUrlS");
-      const nowRoot = info.split("+")[2]
-      if (nowRoot == 3) {
-        this.changeData = row
-      this.dialogVisibleE = true
+      const nowRoot = info.split("+")[2];
+      if (nowRoot === 3) {
+        this.changeData = row;
+        this.dialogVisibleE = true;
       } else {
-        this.$message.error('您的权限不足！无法修改此账号的权限等级！')
+        this.$message.error("您的权限不足！无法修改此账号的权限等级！");
       }
     },
     changeInfo(row) {
       const info = localStorage.getItem("imgUrlS");
-      const nowRoot = info.split("+")[2]
-      if (row.root < nowRoot || nowRoot == 3) {
-        this.changeData = row
-      this.dialogVisible = true
+      const nowRoot = info.split("+")[2];
+      if (row.root < nowRoot || nowRoot === 3) {
+        this.changeData = row;
+        this.dialogVisible = true;
       } else {
-        this.$message.error('您的权限不足！无法修改此账号的权限等级！')
+        this.$message.error("您的权限不足！无法修改此账号的信息！");
       }
     },
     getList() {
-      search().then(res => {
+      search().then((res) => {
         if (res.status === 200) {
-          this.tableData = res.data
+          this.tableData = res.data;
         }
-      })
-    }
-  }
+      });
+    },
+  },
 };
 </script>
   

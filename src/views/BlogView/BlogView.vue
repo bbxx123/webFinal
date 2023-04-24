@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:54:27
- * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-24 15:49:14
- * @FilePath: \毕设\webFinal\src\views\BlogView\BlogView.vue
+ * @LastEditors: Chai chai 2787922490@qq.com
+ * @LastEditTime: 2023-04-24 22:16:38
+ * @FilePath: \webFinal\src\views\BlogView\BlogView.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -37,11 +37,11 @@
             :tags="user.tags"
             :selfContent="user.titleKey"
             :imgUrl="user.titleImgUrl"
-            :teams='teams'
+            :teams="teams"
           ></cardView>
         </div>
         <div>
-          <div class="headerTitle2">TOP前9</div>
+          <div class="headerTitle2">全站TOP前9</div>
           <div style="margin: 20px 0 0 100px">
             <ul
               class="headerItem"
@@ -49,10 +49,16 @@
               :key="index + 1"
             >
               <li
-                style="margin-bottom: 23px; cursor: pointer"
+                style="
+                  margin-bottom: 23px;
+                  cursor: pointer;
+                  display: flex;
+                  justify-content: space-between;
+                "
                 @click="clickItem(item)"
               >
-                {{ item.title }} ………………… {{ item.createTime }}
+                <span>{{ item.title }}</span> <span>…………………</span>
+                <span>{{ item.createTime }}</span>
               </li>
             </ul>
           </div>
@@ -83,7 +89,11 @@
           </div>
         </div>
         <div class="peopleBox">
-          <div class="essayBox"  v-loading="loading" v-if="essayList.length !== 0">
+          <div
+            class="essayBox"
+            v-loading="loading"
+            v-if="essayList.length !== 0"
+          >
             <div
               class="essayItem"
               v-for="(item, index) in essayList"
@@ -98,7 +108,9 @@
                 <div style="font-size: 35px; margin-top: 50px">
                   {{ item.title }}
                 </div>
-                <div style="color: #efefef;font-size:30px margin-top: 20px; height: 80px">
+                <div
+                  style="color: #efefef;font-size:30px margin-top: 20px; height: 80px"
+                >
                   {{ item.titleKey }}
                 </div>
                 <div style="margin-bottom: 20px">作者: {{ item.auther }}</div>
@@ -131,7 +143,7 @@ import footerView from "@/components/footerView/index.vue";
 import bannerList1 from "./components/bannerList1.vue";
 import bannerList2 from "./components/bannerList2.vue";
 import bannerList3 from "./components/bannerList3.vue";
-import { searchPaper,searchNinePage,searchOnePage } from "@/api/use";
+import { searchPaper, searchNinePage, searchOnePage } from "@/api/use";
 export default {
   name: "BlogView",
   components: {
@@ -149,8 +161,7 @@ export default {
       total: 0,
       essayList: [],
       asseyList: [],
-      teams: [
-      ],
+      teams: [],
       restaurants: [],
       state2: "",
       img: "http://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blog3.0/bg17.jpg",
@@ -162,49 +173,52 @@ export default {
   created() {
     this.getList();
   },
-  watch:{
-    state2: function(newN,oldN) {
-      if(newN === '') {
-        this.clearSearch()
+  watch: {
+    state2: function (newN, oldN) {
+      if (newN === "") {
+        this.clearSearch();
       }
-    }
+    },
   },
   methods: {
     goWatch() {
-      this.$router.push('/watch')
+      this.$router.push("/watch");
     },
     searchNinePage() {
-      searchNinePage().then(res => {
-        if(res.status === 200) {
-          this.asseyList = res.data
+      searchNinePage().then((res) => {
+        if (res.status === 200) {
+          this.asseyList = res.data;
         }
-      })
+      });
     },
     searchOnePage() {
-      searchOnePage().then(res => {
-        if(res.status === 200) {
-          this.teams = res.data
+      searchOnePage().then((res) => {
+        if (res.status === 200) {
+          this.teams = res.data;
         }
-      })
+      });
     },
     currentChange(item) {
-      this.loading = true
+      this.loading = true;
       this.essayList = [];
       searchPaper({ page: item - 1 }).then((res) => {
         this.essayList = res.data.data;
         this.total = res.data.total;
       });
-      setTimeout(() => { this.loading = false},1000)
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     },
     goCheckEssay(item) {
       this.$router.push(`/paper/item/${item.id}`);
     },
     getList() {
-      this.loading = true
+      this.loading = true;
       this.essayList = [];
+      this.restaurants = [];
       searchPaper(this.formData).then((res) => {
         if (res.status === 200) {
-          res.data.data.forEach((item) => {
+          res.data.allData.forEach((item) => {
             const data = {
               value: item.title,
               address: item.id,
@@ -213,12 +227,14 @@ export default {
           });
           this.essayList = res.data.data;
           this.total = res.data.total;
-         
-          setTimeout(() => { this.loading = false},1000)
+
+          setTimeout(() => {
+            this.loading = false;
+          }, 1000);
         }
       });
-      this.searchNinePage()
-      this.searchOnePage()
+      this.searchNinePage();
+      this.searchOnePage();
     },
     goWrite() {
       this.$router.push("/writePaper");
@@ -234,6 +250,7 @@ export default {
       this.$router.push(`/paper/item/${item.id}`);
     },
     clearSearch() {
+      this.restaurants = [];
       // console.log(111);
       this.getList();
     },
@@ -254,14 +271,16 @@ export default {
       };
     },
     handleSelect(item) {
-      this.loading = true
+      this.loading = true;
       this.essayList = [];
       // console.log(item);
       searchPaper({ id: `${item.address}` }).then((res) => {
         // console.log(res);
         this.essayList = res.data.data;
         this.total = res.data.total;
-        setTimeout(() => { this.loading = false},1000)
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
       });
     },
   },
@@ -361,7 +380,7 @@ export default {
     padding: 15px;
     background: rgba($color: #000000, $alpha: 0.3);
     position: absolute;
-    top: 50%;
+    top: 60%;
     right: 0;
     overflow: hidden;
   }

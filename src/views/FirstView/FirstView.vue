@@ -1,9 +1,9 @@
 <!--
  * @Author: chaichai chaichai@cute.com
  * @Date: 2022-09-26 08:29:56
- * @LastEditors: fengyuanyao fengyuanyao@fanyu.com
- * @LastEditTime: 2023-04-24 15:27:10
- * @FilePath: \毕设\webFinal\src\views\FirstView\FirstView.vue
+ * @LastEditors: Chai chai 2787922490@qq.com
+ * @LastEditTime: 2023-04-24 22:07:34
+ * @FilePath: \webFinal\src\views\FirstView\FirstView.vue
  * @Description:  [CQUCC-4-433](https://github.com/4-433) 正在找寻志同道合的小伙伴，欢迎前端、后端、UI加入我们！
  * 
  * Copyright (c) 2022 by CQUCC-4-433, All Rights Reserved. 
@@ -11,7 +11,11 @@
 
 <template>
   <div class="aboutBox">
-    <bannerView :imgUrl="this.img" :titleName="this.title" ref="banner"></bannerView>
+    <bannerView
+      :imgUrl="this.img"
+      :titleName="this.title"
+      ref="banner"
+    ></bannerView>
     <div class="mainBox">
       <div class="sendBox">
         <div class="sendTitle" style="color: #fff">
@@ -27,11 +31,17 @@
       <div class="peopleBg2">
         <div class="sendTitle"><i class="el-icon-user"></i>热门文章：</div>
         <div class="peopleBox">
-          <div class="essayBox"  v-if="essayList.length !== 0">
-            <div class="essayItem" v-for="(item, index) in essayList" :key="index + 1" :style="{
-              background: 'url(' + item.titleImgUrl + ')',
-              backgroundSize: 'cover',
-            }" @click="goCheckEssay(item)">
+          <div class="essayBox" v-if="essayList.length !== 0">
+            <div
+              class="essayItem"
+              v-for="(item, index) in essayList"
+              :key="index + 1"
+              :style="{
+                background: 'url(' + item.titleImgUrl + ')',
+                backgroundSize: 'cover',
+              }"
+              @click="goCheckEssay(item)"
+            >
               <div class="essayShadow">
                 <div style="font-size: 35px; margin-top: 50px">
                   {{ item.title }}
@@ -49,26 +59,37 @@
       </div>
       <div class="peopleBg">
         <div class="sendTitle"><i class="el-icon-user"></i>优秀作者：</div>
-        <div v-if="peopleList.length !== 0" style="
-              display: flex;
-              flex-wrap: nowrap;
-              justify-content: space-between;
-          ">
-        <div v-for="(item, index) in peopleList" :key="index + 1" class="peopleBox">
-          <div class="peoplePic">
-            <img :src="item.imgUrl" alt="" />
-          </div>
-          <div class="peopleItem">
-            <div>作者：{{ item.name }}</div>
-            <div style="margin-top: 5px">作者分数：{{ item.integral }}</div>
-            <div style="margin-top: 5px">粉丝数：{{ parseInt(item.integral/5) }}</div>
+        <div
+          v-if="peopleList.length !== 0"
+          style="
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+          "
+        >
+          <div
+            v-for="(item, index) in peopleList"
+            :key="index + 1"
+            class="peopleBox"
+          >
+            <div class="peoplePic">
+              <img :src="item.imgUrl" alt="" />
+            </div>
+            <div class="peopleItem">
+              <div>作者：{{ item.name }}</div>
+              <div style="margin-top: 5px">作者分数：{{ item.integral }}</div>
+              <div style="margin-top: 5px">
+                粉丝数：{{ parseInt(item.integral / 5) }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else style="padding:10px 0 50px 0;font-size:20px">暂无推荐作者！</div>
+        <div v-else style="padding: 10px 0 50px 0; font-size: 20px">
+          暂无推荐作者！
+        </div>
       </div>
 
-    <!-- <div class="contentBox">
+      <!-- <div class="contentBox">
         <div class="contentTitle">
           <div class="markdown-body">
             <markdown />
@@ -78,7 +99,7 @@
       <div :class="locked ? 'asideBoxFix' : 'asideBox'">
           <div class="asideImg"> -->
       <!-- 头像 -->
-    <!-- <el-avatar
+      <!-- <el-avatar
               src="https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/0d1b2cad168244918d2ee927bb664eb5.jpeg"
               :size="size"
               class="asidePic"
@@ -96,35 +117,28 @@
       </div>
     </div>
     <footerView></footerView>
-    <el-dialog title="您有文章被退回" :visible.sync="dialogVisible" :append-to-body="true">
+    <el-dialog
+      title="您有文章被退回"
+      v-if="backInfo.length !== 0"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+    >
       <div>您有{{ backInfo.length }}篇文章被管理员退回，请周知~</div>
-      <br>
-      <el-table
-      :data="backInfo"
-      style="width: 100%">
-      <el-table-column
-        prop="id"
-        label="文章id"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="文章标题"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        label="文章创建时间">
-      </el-table-column>
-      <el-table-column
-        prop="passContent"
-        label="文章退回理由">
-      </el-table-column>
-    </el-table>
-    <div slot="footer">
-      <el-button @click="dialogVisible = false">暂不处理</el-button>
-      <el-button type="primary" @click="iKnow">我已知晓</el-button>
-    </div>
+      <br />
+      <el-table :data="backInfo" style="width: 100%">
+        <el-table-column prop="id" label="文章id" width="180">
+        </el-table-column>
+        <el-table-column prop="title" label="文章标题" width="180">
+        </el-table-column>
+        <el-table-column prop="createTime" label="文章创建时间">
+        </el-table-column>
+        <el-table-column prop="passContent" label="文章退回理由">
+        </el-table-column>
+      </el-table>
+      <div slot="footer">
+        <el-button @click="dialogVisible = false">暂不处理</el-button>
+        <el-button type="primary" @click="iKnow">我已知晓</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -136,7 +150,12 @@ import footerView from "@/components/footerView/index.vue";
 import markdown from "../home.md";
 import "highlight.js/styles/github.css";
 import "github-markdown-css";
-import { searchAuther,searchSixPage,searchHomeMsg,checkBack } from "@/api/use";
+import {
+  searchAuther,
+  searchSixPage,
+  searchHomeMsg,
+  checkBack,
+} from "@/api/use";
 export default {
   name: "FirstView",
   components: { bannerView, markdown, footerView },
@@ -146,23 +165,23 @@ export default {
       let $ele = this.$refs.banner;
       this.bannerH = $ele.$el.offsetHeight;
     });
-    const isRead = localStorage.getItem('isRead')
-    if(!isRead) {
-      this.checkBack()
+    const isRead = localStorage.getItem("isRead");
+    if (!isRead) {
+      this.checkBack();
     }
-    this.searchSixPage()
+    this.searchSixPage();
     this.searchAuther();
-    this.searchHomeMsg()
+    this.searchHomeMsg();
   },
   destroyed() {
     window.removeEventListener("scroll", this.scrollToTop);
   },
   data() {
     return {
-      dialogVisible:false,
+      dialogVisible: false,
       peopleList: [],
       essayList: [],
-      backInfo:[],
+      backInfo: [],
       sendMeesion: "",
       //侧边栏头像大小
       size: 90,
@@ -177,24 +196,24 @@ export default {
   },
   methods: {
     iKnow() {
-      localStorage.setItem('isRead',true)
-      this.dialogVisible = false
+      localStorage.setItem("isRead", true);
+      this.dialogVisible = false;
     },
     checkBack() {
       const info = localStorage.getItem("imgUrlS");
-      checkBack({autherId: info.split("+")[3]}).then(res=>{
-        if(res.status === 200) {
-          this.backInfo = res.data
-          this.dialogVisible = true
+      checkBack({ autherId: info.split("+")[3] }).then((res) => {
+        if (res.status === 200) {
+          this.backInfo = res.data;
+          this.dialogVisible = true;
         }
-      })
+      });
     },
-    searchHomeMsg(){
-      searchHomeMsg().then(res=>{
-        if(res.status === 200) {
-          this.sendMeesion = res.data[0].content
+    searchHomeMsg() {
+      searchHomeMsg().then((res) => {
+        if (res.status === 200) {
+          this.sendMeesion = res.data[0].content;
         }
-      })
+      });
     },
     searchSixPage() {
       searchSixPage().then((res) => {
