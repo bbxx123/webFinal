@@ -2,7 +2,7 @@
  * @Author: fengyuanyao fengyuanyao@fanyu.com
  * @Date: 2022-10-17 10:08:18
  * @LastEditors: Chai chai 2787922490@qq.com
- * @LastEditTime: 2023-04-24 21:37:56
+ * @LastEditTime: 2023-04-24 23:15:10
  * @FilePath: \webFinal\src\views\BackView\components\userRoot.vue
  * 
  * Copyright (c) 2022 by error: git config user.name && git config user.email & please set dead value or install git, All Rights Reserved. 
@@ -180,7 +180,7 @@ export default {
     deleteUser(row) {
       const info = localStorage.getItem("imgUrlS");
       const nowRoot = info.split("+")[2];
-      if (row.root < nowRoot || nowRoot === 3) {
+      if (row.root < nowRoot || nowRoot == 3) {
         this.delete(row);
       } else {
         this.$message.error("您的权限不足！无法删除此账号！");
@@ -214,7 +214,7 @@ export default {
     changeRoot(row) {
       const info = localStorage.getItem("imgUrlS");
       const nowRoot = info.split("+")[2];
-      if (nowRoot === 3) {
+      if (nowRoot == 3) {
         this.changeData = row;
         this.dialogVisibleE = true;
       } else {
@@ -224,7 +224,7 @@ export default {
     changeInfo(row) {
       const info = localStorage.getItem("imgUrlS");
       const nowRoot = info.split("+")[2];
-      if (row.root < nowRoot || nowRoot === 3) {
+      if (row.root < nowRoot || nowRoot == 3) {
         this.changeData = row;
         this.dialogVisible = true;
       } else {
